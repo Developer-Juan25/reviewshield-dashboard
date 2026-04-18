@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "./firebase";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
+import Onboarding from "./components/Onboarding";
 
 function SuccessPage() {
   return (
@@ -36,12 +38,19 @@ function SuccessPage() {
 export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [hasSettings, setHasSettings] = useState(null);
   const isSuccess = window.location.pathname === "/success";
 
   useEffect(() => {
     if (isSuccess) return;
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        const snap = await getDoc(doc(db, "settings", currentUser.uid));
+        setHasSettings(snap.exists() && !!snap.data()?.businessName);
+      } else {
+        setHasSettings(null);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
@@ -57,5 +66,16 @@ export default function App() {
     );
   }
 
-  return user ? <Dashboard user={user} onLogout={() => {}} /> : <Login />;
+  if (!user) return <Login />;
+
+  if (!hasSettings) {
+    return (
+      <Onboarding
+        user={user}
+        onComplete={() => setHasSettings(true)}
+      />
+    );
+  }
+
+  return <Dashboard user={user} />;
 }
