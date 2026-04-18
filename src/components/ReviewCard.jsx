@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const PLATFORM_COLORS = {
   google: "bg-blue-500/10 text-blue-400 border-blue-500/20",
@@ -13,6 +14,7 @@ const PLATFORM_ICONS = {
 };
 
 export default function ReviewCard({ review }) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(review.isNegative);
 
@@ -45,7 +47,7 @@ export default function ReviewCard({ review }) {
               <span className="text-gray-500 text-xs">{review.timestamp}</span>
               {review.isNegative && (
                 <span className="bg-red-500/10 text-red-400 border border-red-500/20 text-xs px-2 py-0.5 rounded-full">
-                  ⚠️ Negative
+                  ⚠️ {t("review.negative")}
                 </span>
               )}
             </div>
@@ -84,7 +86,7 @@ export default function ReviewCard({ review }) {
         <div className="mt-4 bg-blue-950/30 border border-blue-900/40 rounded-lg p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-blue-400 text-xs font-medium uppercase tracking-wider">
-              🤖 AI Suggested Response
+              🤖 {t("review.aiResponse")}
             </span>
             <button
               onClick={handleCopy}

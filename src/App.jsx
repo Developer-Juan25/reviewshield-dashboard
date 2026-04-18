@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "./firebase";
@@ -7,28 +8,29 @@ import Login from "./components/Login";
 import Onboarding from "./components/Onboarding";
 
 function SuccessPage() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center">
       <div className="text-center px-6">
         <div className="text-6xl mb-6">🎉</div>
         <h1 className="text-3xl font-bold text-white mb-3">
-          ¡Suscripción activada!
+          {t("success.title")}
         </h1>
         <p className="text-gray-400 mb-2">
-          Tu plan{" "}
+          {t("success.subtitle")}{" "}
           <span className="text-blue-400 font-semibold">
-            ReviewShield Starter
+            {t("success.plan")}
           </span>{" "}
-          ya está activo.
+          {t("success.detail")}
         </p>
         <p className="text-gray-500 text-sm mb-8">
-          El monitoreo de reseñas comenzará automáticamente.
+          {t("success.monitoring")}
         </p>
         <a
           href="/"
           className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3 rounded-xl transition inline-block"
         >
-          Ir al Dashboard
+          {t("success.btn")}
         </a>
       </div>
     </div>

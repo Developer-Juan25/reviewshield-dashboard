@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { db } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -7,6 +8,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 const N8N_CHECKOUT_URL = import.meta.env.VITE_N8N_CHECKOUT_URL || "";
 
 export default function Settings({ user }) {
+  const { t } = useTranslation();
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [upgrading, setUpgrading] = useState(false);
@@ -73,7 +75,7 @@ export default function Settings({ user }) {
 
   const handleUpgrade = async () => {
     if (!N8N_CHECKOUT_URL) {
-      alert("Checkout no configurado. Agrega VITE_N8N_CHECKOUT_URL en Vercel.");
+      alert("Checkout not configured. Add VITE_N8N_CHECKOUT_URL in Vercel.");
       return;
     }
     setUpgrading(true);
@@ -91,7 +93,7 @@ export default function Settings({ user }) {
       }
     } catch (err) {
       console.error("Error creating checkout session:", err);
-      alert("Error al iniciar el pago. Intenta de nuevo.");
+      alert("Error starting payment. Please try again.");
       setUpgrading(false);
     }
   };
@@ -106,21 +108,21 @@ export default function Settings({ user }) {
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
-      <h2 className="text-2xl font-bold text-white mb-2">Settings</h2>
+      <h2 className="text-2xl font-bold text-white mb-2">{t("settings.title")}</h2>
       <p className="text-gray-400 text-sm mb-8">
-        Configure your business and monitoring preferences
+        {t("settings.subtitle")}
       </p>
 
       <div className="space-y-6">
         {/* Business Information */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
           <h3 className="text-white font-semibold mb-4">
-            Business Information
+            {t("settings.businessName")}
           </h3>
           <div className="space-y-4">
             <div>
               <label className="text-gray-400 text-sm mb-2 block">
-                Business Name
+                {t("settings.businessName")}
               </label>
               <input
                 type="text"
@@ -133,7 +135,7 @@ export default function Settings({ user }) {
             </div>
             <div>
               <label className="text-gray-400 text-sm mb-2 block">
-                Alert Email
+                {t("settings.alertEmail")}
               </label>
               <input
                 type="email"
@@ -146,9 +148,9 @@ export default function Settings({ user }) {
             </div>
             <div>
               <label className="text-gray-400 text-sm mb-2 block">
-                Google Business ID
+                {t("settings.googleId")}
                 <span className="text-gray-600 ml-2 text-xs">
-                  (found in your Google Business URL)
+                  ({t("settings.googleIdHint")})
                 </span>
               </label>
               <input
@@ -166,13 +168,13 @@ export default function Settings({ user }) {
         {/* Platforms to Monitor */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
           <h3 className="text-white font-semibold mb-4">
-            Platforms to Monitor
+            {t("settings.platforms")}
           </h3>
           <div className="space-y-3">
             {[
-              { key: "google", label: "Google Reviews", available: true },
-              { key: "yelp", label: "Yelp", available: false },
-              { key: "facebook", label: "Facebook Reviews", available: false },
+              { key: "google", label: t("settings.google"), available: true },
+              { key: "yelp", label: t("settings.yelp"), available: false },
+              { key: "facebook", label: t("settings.facebook"), available: false },
             ].map((p) => (
               <div
                 key={p.key}
@@ -182,7 +184,7 @@ export default function Settings({ user }) {
                   <span className="text-white text-sm">{p.label}</span>
                   {!p.available && (
                     <span className="bg-gray-800 text-gray-500 text-xs px-2 py-0.5 rounded-full">
-                      Coming soon
+                      {t("settings.comingSoon")}
                     </span>
                   )}
                 </div>
@@ -209,17 +211,17 @@ export default function Settings({ user }) {
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-white font-semibold">Current Plan</h3>
+              <h3 className="text-white font-semibold">{t("settings.plan")}</h3>
               {plan === "starter" ? (
                 <div className="mt-1">
-                  <p className="text-green-400 text-sm">✅ Starter — $49/month</p>
-                  <p className="text-gray-500 text-xs mt-0.5">Suscripción activa</p>
+                  <p className="text-green-400 text-sm">✅ {t("settings.starter")} — $49/month</p>
+                  <p className="text-gray-500 text-xs mt-0.5">Active subscription</p>
                 </div>
               ) : (
                 <div className="mt-1">
-                  <p className="text-gray-400 text-sm">Free — Sin suscripción activa</p>
+                  <p className="text-gray-400 text-sm">{t("settings.free")} — No active subscription</p>
                   <p className="text-gray-600 text-xs mt-0.5">
-                    Upgrade para monitoreo automático
+                    {t("settings.upgrade")} for automatic monitoring
                   </p>
                 </div>
               )}
@@ -230,7 +232,7 @@ export default function Settings({ user }) {
                 disabled={upgrading}
                 className="bg-blue-600 hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2 rounded-lg transition"
               >
-                {upgrading ? "⏳ Redirigiendo..." : "Upgrade $49/mo"}
+                {upgrading ? "⏳ Redirecting..." : "Upgrade $49/mo"}
               </button>
             )}
           </div>
@@ -244,7 +246,7 @@ export default function Settings({ user }) {
               : "bg-blue-600 hover:bg-blue-500 text-white"
           }`}
         >
-          {saved ? "✓ Settings saved!" : "Save changes"}
+          {saved ? t("settings.saved") : t("settings.save")}
         </button>
       </div>
     </div>

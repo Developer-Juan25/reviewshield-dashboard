@@ -1,41 +1,42 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 
 const PLATFORMS = [
   {
     key: "google",
-    label: "Google Reviews",
+    labelKey: "settings.google",
     icon: "🔍",
-    description: "La plataforma #1 mundial",
+    descriptionKey: "onboarding.platforms.googleDesc",
     available: true,
   },
   {
     key: "facebook",
-    label: "Facebook Reviews",
+    labelKey: "settings.facebook",
     icon: "📘",
-    description: "Ideal para negocios locales",
+    descriptionKey: "onboarding.platforms.facebookDesc",
     available: false,
   },
   {
     key: "yelp",
-    label: "Yelp",
+    labelKey: "settings.yelp",
     icon: "⭐",
-    description: "Muy popular en USA & Canada",
+    descriptionKey: "onboarding.platforms.yelpDesc",
     available: false,
   },
   {
     key: "tripadvisor",
-    label: "TripAdvisor",
+    labelKey: "settings.tripadvisor",
     icon: "✈️",
-    description: "Esencial para restaurantes y spas",
+    descriptionKey: "onboarding.platforms.tripadvisorDesc",
     available: false,
   },
   {
     key: "trustpilot",
-    label: "Trustpilot",
+    labelKey: "settings.trustpilot",
     icon: "🌟",
-    description: "Líder en mercado europeo",
+    descriptionKey: "onboarding.platforms.trustpilotDesc",
     available: false,
   },
 ];
@@ -43,6 +44,7 @@ const PLATFORMS = [
 const STEPS = ["welcome", "business", "platforms", "done"];
 
 export default function Onboarding({ user, onComplete }) {
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
@@ -84,6 +86,15 @@ export default function Onboarding({ user, onComplete }) {
     }
   };
 
+  // Platform descriptions (not in i18n to keep them simple)
+  const platformDescriptions = {
+    google: "Google Reviews",
+    facebook: "Facebook Reviews",
+    yelp: "Yelp",
+    tripadvisor: "TripAdvisor",
+    trustpilot: "Trustpilot",
+  };
+
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
       <div className="w-full max-w-lg">
@@ -97,8 +108,8 @@ export default function Onboarding({ user, onComplete }) {
           {currentStep !== "welcome" && currentStep !== "done" && (
             <div className="mt-4">
               <div className="flex justify-between text-xs text-gray-500 mb-1">
-                <span>Configuración</span>
-                <span>Paso {step} de {STEPS.length - 2}</span>
+                <span>{t("onboarding.setup")}</span>
+                <span>{t("onboarding.step")} {step} {t("onboarding.of")} {STEPS.length - 2}</span>
               </div>
               <div className="w-full bg-gray-800 rounded-full h-1.5">
                 <div
@@ -118,20 +129,20 @@ export default function Onboarding({ user, onComplete }) {
             <div className="text-center">
               <div className="text-6xl mb-4">👋</div>
               <h1 className="text-2xl font-bold text-white mb-3">
-                Bienvenido a ReviewShield
+                {t("onboarding.welcome.title")}
               </h1>
               <p className="text-gray-400 text-sm mb-2">
-                Hola,{" "}
+                {t("login.title")},{" "}
                 <span className="text-white font-medium">{user?.email}</span>
               </p>
               <p className="text-gray-500 text-sm mb-8">
-                Configura tu negocio en 2 minutos y empieza a monitorear tus reseñas automáticamente con IA.
+                {t("onboarding.welcome.subtitle")}
               </p>
               <div className="grid grid-cols-3 gap-3 mb-8">
                 {[
-                  { icon: "📊", label: "Monitoreo 24/7" },
-                  { icon: "🤖", label: "Respuestas con IA" },
-                  { icon: "🔔", label: "Alertas al instante" },
+                  { icon: "📊", label: t("onboarding.welcome.feature1") },
+                  { icon: "🤖", label: t("onboarding.welcome.feature2") },
+                  { icon: "🔔", label: t("onboarding.welcome.feature3") },
                 ].map((f) => (
                   <div key={f.label} className="bg-gray-800 rounded-xl p-3 text-center">
                     <div className="text-2xl mb-1">{f.icon}</div>
@@ -143,7 +154,7 @@ export default function Onboarding({ user, onComplete }) {
                 onClick={() => setStep(1)}
                 className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition"
               >
-                Empezar configuración →
+                {t("onboarding.welcome.btn")}
               </button>
             </div>
           )}
@@ -151,42 +162,42 @@ export default function Onboarding({ user, onComplete }) {
           {/* STEP 1 — Business Data */}
           {currentStep === "business" && (
             <div>
-              <h2 className="text-xl font-bold text-white mb-1">Tu negocio</h2>
+              <h2 className="text-xl font-bold text-white mb-1">{t("onboarding.business.title")}</h2>
               <p className="text-gray-500 text-sm mb-6">
-                Cuéntanos sobre tu negocio para personalizar el monitoreo.
+                {t("onboarding.business.subtitle")}
               </p>
               <div className="space-y-4">
                 <div>
                   <label className="text-gray-400 text-sm mb-2 block">
-                    Nombre del negocio <span className="text-red-400">*</span>
+                    {t("onboarding.business.nameLabel")} <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
                     name="businessName"
                     value={form.businessName}
                     onChange={handleChange}
-                    placeholder="Ej. The Golden Fork Restaurant"
+                    placeholder={t("onboarding.business.namePlaceholder")}
                     className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
                   />
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm mb-2 block">
-                    Email para alertas
+                    {t("onboarding.business.emailLabel")}
                   </label>
                   <input
                     type="email"
                     name="alertEmail"
                     value={form.alertEmail}
                     onChange={handleChange}
-                    placeholder="owner@tunegocio.com"
+                    placeholder={t("onboarding.business.emailPlaceholder")}
                     className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
                   />
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm mb-2 block">
-                    Google Business ID
+                    {t("onboarding.business.googleIdLabel")}
                     <span className="text-gray-600 ml-2 text-xs">
-                      (opcional — puedes agregarlo después)
+                      {t("onboarding.business.googleIdOptional")}
                     </span>
                   </label>
                   <input
@@ -194,11 +205,11 @@ export default function Onboarding({ user, onComplete }) {
                     name="googleBusinessId"
                     value={form.googleBusinessId}
                     onChange={handleChange}
-                    placeholder="Ej. 15172862745724499656"
+                    placeholder={t("onboarding.business.googleIdPlaceholder")}
                     className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
                   />
                   <p className="text-gray-600 text-xs mt-1">
-                    Encuéntralo en la URL de tu perfil de Google Business
+                    {t("onboarding.business.googleIdHint")}
                   </p>
                 </div>
               </div>
@@ -207,14 +218,14 @@ export default function Onboarding({ user, onComplete }) {
                   onClick={() => setStep(0)}
                   className="px-5 py-3 rounded-xl text-gray-400 hover:text-white border border-gray-700 hover:border-gray-500 text-sm transition"
                 >
-                  ← Atrás
+                  {t("onboarding.business.back")}
                 </button>
                 <button
                   onClick={() => setStep(2)}
                   disabled={!canNextBusiness}
                   className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition text-sm"
                 >
-                  Continuar →
+                  {t("onboarding.business.next")}
                 </button>
               </div>
             </div>
@@ -224,10 +235,10 @@ export default function Onboarding({ user, onComplete }) {
           {currentStep === "platforms" && (
             <div>
               <h2 className="text-xl font-bold text-white mb-1">
-                Plataformas a monitorear
+                {t("onboarding.platforms.title")}
               </h2>
               <p className="text-gray-500 text-sm mb-6">
-                Google Reviews ya está activo. Más plataformas llegando pronto.
+                {t("onboarding.platforms.subtitle")}
               </p>
               <div className="space-y-3">
                 {PLATFORMS.map((p) => (
@@ -242,17 +253,16 @@ export default function Onboarding({ user, onComplete }) {
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{p.icon}</span>
                       <div>
-                        <p className="text-white text-sm font-medium">{p.label}</p>
-                        <p className="text-gray-500 text-xs">{p.description}</p>
+                        <p className="text-white text-sm font-medium">{platformDescriptions[p.key]}</p>
                       </div>
                     </div>
                     {p.available ? (
                       <span className="bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-medium shrink-0">
-                        ✓ Activo
+                        {t("onboarding.platforms.active")}
                       </span>
                     ) : (
                       <span className="bg-gray-700 text-gray-400 text-xs px-3 py-1 rounded-full shrink-0">
-                        Próximamente
+                        {t("onboarding.platforms.comingSoon")}
                       </span>
                     )}
                   </div>
@@ -263,13 +273,13 @@ export default function Onboarding({ user, onComplete }) {
                   onClick={() => setStep(1)}
                   className="px-5 py-3 rounded-xl text-gray-400 hover:text-white border border-gray-700 hover:border-gray-500 text-sm transition"
                 >
-                  ← Atrás
+                  {t("onboarding.platforms.back")}
                 </button>
                 <button
                   onClick={() => setStep(3)}
                   className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition text-sm"
                 >
-                  Continuar →
+                  {t("onboarding.platforms.next")}
                 </button>
               </div>
             </div>
@@ -280,31 +290,31 @@ export default function Onboarding({ user, onComplete }) {
             <div className="text-center">
               <div className="text-6xl mb-4">🎉</div>
               <h2 className="text-2xl font-bold text-white mb-3">
-                ¡Todo listo!
+                {t("onboarding.done.title")}
               </h2>
               <p className="text-gray-400 text-sm mb-8">
-                <span className="text-white font-medium">{form.businessName}</span> está configurado.
-                El sistema comenzará a analizar tus reseñas automáticamente.
+                <span className="text-white font-medium">{form.businessName}</span>{" "}
+                {t("onboarding.done.subtitle")}
               </p>
               <div className="bg-gray-800 rounded-xl p-4 mb-8 text-left space-y-2">
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-green-400">✓</span>
                   <span className="text-gray-300">
-                    Negocio:{" "}
+                    {t("onboarding.done.business")}:{" "}
                     <strong className="text-white">{form.businessName}</strong>
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-green-400">✓</span>
                   <span className="text-gray-300">
-                    Alertas a:{" "}
+                    {t("onboarding.done.alerts")}:{" "}
                     <strong className="text-white">{form.alertEmail}</strong>
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-green-400">✓</span>
                   <span className="text-gray-300">
-                    Plataforma:{" "}
+                    {t("onboarding.done.platform")}:{" "}
                     <strong className="text-white">Google Reviews</strong>
                   </span>
                 </div>
@@ -314,7 +324,7 @@ export default function Onboarding({ user, onComplete }) {
                 disabled={saving}
                 className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition"
               >
-                {saving ? "Guardando..." : "Ir al dashboard →"}
+                {saving ? t("onboarding.done.saving") : t("onboarding.done.btn")}
               </button>
             </div>
           )}
