@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
-import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where, doc, getDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import ReviewCard from "./ReviewCard";
 import StatsBar from "./StatsBar";
@@ -11,7 +11,24 @@ export default function Dashboard({ user }) {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState("dashboard");
+  const [businessName, setBusinessName] = useState("");
 
+  // Load business name from settings
+  useEffect(() => {
+    const loadBusinessName = async () => {
+      try {
+        const snap = await getDoc(doc(db, "settings", user.uid));
+        if (snap.exists()) {
+          setBusinessName(snap.data()?.businessName || "");
+        }
+      } catch (err) {
+        console.error("Error loading business name:", err);
+      }
+    };
+    if (user?.uid) loadBusinessName();
+  }, [user]);
+
+  // Load reviews
   useEffect(() => {
     const q = query(
       collection(db, "reviews"),
@@ -55,9 +72,11 @@ export default function Dashboard({ user }) {
         <div className="flex items-center gap-3">
           <span className="text-xl">🛡️</span>
           <span className="font-bold text-lg tracking-tight">ReviewShield</span>
-          <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded-full">
-            The Golden Fork · Chicago
-          </span>
+          {businessName && (
+            <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded-full">
+              {businessName}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-4">
           <span className="text-gray-400 text-sm hidden md:block">
