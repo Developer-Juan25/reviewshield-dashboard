@@ -101,7 +101,7 @@ export default function Settings({ user }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <p className="text-gray-500 text-sm">Loading settings...</p>
+        <p className="text-gray-500 text-sm">{t("settings.loading")}</p>
       </div>
     );
   }
@@ -117,7 +117,7 @@ export default function Settings({ user }) {
         {/* Business Information */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
           <h3 className="text-white font-semibold mb-4">
-            {t("settings.businessName")}
+            {t("settings.businessInfo")}
           </h3>
           <div className="space-y-4">
             <div>
@@ -207,35 +207,92 @@ export default function Settings({ user }) {
           </div>
         </div>
 
-        {/* Current Plan */}
+        {/* Plans */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-white font-semibold">{t("settings.plan")}</h3>
-              {plan === "starter" ? (
-                <div className="mt-1">
-                  <p className="text-green-400 text-sm">✅ {t("settings.starter")} — $49/month</p>
-                  <p className="text-gray-500 text-xs mt-0.5">Active subscription</p>
+          <h3 className="text-white font-semibold mb-4">{t("settings.plan")}</h3>
+          <div className="space-y-3">
+            {/* Starter */}
+            <div className={`rounded-xl border p-4 transition ${plan === "starter" ? "border-green-500 bg-green-500/10" : "border-gray-700 bg-gray-800/50"}`}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-white font-semibold text-sm">{t("settings.starter")}</span>
+                    <span className="text-gray-400 text-sm font-normal">— $49/mo</span>
+                    {plan === "starter" && (
+                      <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded-full">{t("settings.currentPlan")}</span>
+                    )}
+                  </div>
+                  <p className="text-gray-500 text-xs mt-1">{t("settings.starterDesc")}</p>
                 </div>
-              ) : (
-                <div className="mt-1">
-                  <p className="text-gray-400 text-sm">{t("settings.free")} — No active subscription</p>
-                  <p className="text-gray-600 text-xs mt-0.5">
-                    {t("settings.upgrade")} for automatic monitoring
-                  </p>
-                </div>
-              )}
+                {plan !== "starter" && (
+                  <button
+                    onClick={handleUpgrade}
+                    disabled={upgrading}
+                    className="bg-blue-600 hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-medium px-3 py-1.5 rounded-lg transition shrink-0"
+                  >
+                    {upgrading ? t("settings.redirecting") : t("settings.upgradeBtn")}
+                  </button>
+                )}
+              </div>
             </div>
-            {plan !== "starter" && (
-              <button
-                onClick={handleUpgrade}
-                disabled={upgrading}
-                className="bg-blue-600 hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2 rounded-lg transition"
-              >
-                {upgrading ? "⏳ Redirecting..." : "Upgrade $49/mo"}
-              </button>
-            )}
+
+            {/* Pro */}
+            <div className={`rounded-xl border p-4 transition relative ${plan === "pro" ? "border-blue-500 bg-blue-500/10" : "border-gray-700 bg-gray-800/50"}`}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-white font-semibold text-sm">{t("settings.pro")}</span>
+                    <span className="text-gray-400 text-sm font-normal">— $99/mo</span>
+                    {plan === "pro" && (
+                      <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">{t("settings.currentPlan")}</span>
+                    )}
+                    {plan !== "pro" && plan !== "agency" && (
+                      <span className="bg-blue-900/60 text-blue-300 text-xs px-2 py-0.5 rounded-full">{t("settings.popularBadge")}</span>
+                    )}
+                  </div>
+                  <p className="text-gray-500 text-xs mt-1">{t("settings.proDesc")}</p>
+                </div>
+                {plan !== "pro" && plan !== "agency" && (
+                  <button
+                    disabled
+                    className="bg-gray-700 text-gray-400 text-xs font-medium px-3 py-1.5 rounded-lg cursor-not-allowed shrink-0"
+                    title="Coming soon"
+                  >
+                    {t("settings.upgradePro")}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Agency */}
+            <div className={`rounded-xl border p-4 transition ${plan === "agency" ? "border-purple-500 bg-purple-500/10" : "border-gray-700 bg-gray-800/50"}`}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-white font-semibold text-sm">{t("settings.agency")}</span>
+                    <span className="text-gray-400 text-sm font-normal">— $199/mo</span>
+                    {plan === "agency" && (
+                      <span className="bg-purple-600 text-white text-xs px-2 py-0.5 rounded-full">{t("settings.currentPlan")}</span>
+                    )}
+                  </div>
+                  <p className="text-gray-500 text-xs mt-1">{t("settings.agencyDesc")}</p>
+                </div>
+                {plan !== "agency" && (
+                  <button
+                    disabled
+                    className="bg-gray-700 text-gray-400 text-xs font-medium px-3 py-1.5 rounded-lg cursor-not-allowed shrink-0"
+                    title="Coming soon"
+                  >
+                    {t("settings.upgradeAgency")}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
+
+          {plan === "free" && (
+            <p className="text-gray-600 text-xs mt-3 text-center">{t("settings.upgradeHint")}</p>
+          )}
         </div>
 
         <button
