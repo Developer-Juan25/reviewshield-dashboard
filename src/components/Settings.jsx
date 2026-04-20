@@ -27,6 +27,7 @@ export default function Settings({ user }) {
     platforms: {
       google: true,
       yelp: false,
+      tripadvisor: false,
       facebook: false,
     },
   });
@@ -187,9 +188,10 @@ export default function Settings({ user }) {
           </h3>
           <div className="space-y-3">
             {[
-              { key: "google", label: t("settings.google"), available: true },
-              { key: "yelp", label: t("settings.yelp"), available: false },
-              { key: "facebook", label: t("settings.facebook"), available: false },
+              { key: "google",      label: t("settings.google"),      available: true  },
+              { key: "yelp",        label: t("settings.yelp"),        available: false },
+              { key: "tripadvisor", label: t("settings.tripadvisor"), available: false },
+              { key: "facebook",    label: t("settings.facebook"),    available: false },
             ].map((p) => (
               <div
                 key={p.key}
@@ -308,6 +310,9 @@ export default function Settings({ user }) {
           {plan === "free" && (
             <p className="text-gray-600 text-xs mt-3 text-center">{t("settings.upgradeHint")}</p>
           )}
+          <p className="text-gray-700 text-xs mt-2 text-center">
+            {t("settings.usdNote")}
+          </p>
         </div>
 
         <button

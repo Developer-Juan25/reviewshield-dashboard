@@ -11,9 +11,6 @@ import i18n from "../i18n";
 const LANGUAGES = [
   { code: "en", label: "EN", flag: "🇺🇸" },
   { code: "es", label: "ES", flag: "🇪🇸" },
-  { code: "fr", label: "FR", flag: "🇫🇷" },
-  { code: "de", label: "DE", flag: "🇩🇪" },
-  { code: "pt", label: "PT", flag: "🇧🇷" },
 ];
 
 export default function Dashboard({ user }) {

@@ -12,13 +12,6 @@ const PLATFORMS = [
     available: true,
   },
   {
-    key: "facebook",
-    labelKey: "settings.facebook",
-    icon: "📘",
-    descriptionKey: "onboarding.platforms.facebookDesc",
-    available: false,
-  },
-  {
     key: "yelp",
     labelKey: "settings.yelp",
     icon: "⭐",
@@ -30,6 +23,13 @@ const PLATFORMS = [
     labelKey: "settings.tripadvisor",
     icon: "✈️",
     descriptionKey: "onboarding.platforms.tripadvisorDesc",
+    available: false,
+  },
+  {
+    key: "facebook",
+    labelKey: "settings.facebook",
+    icon: "📘",
+    descriptionKey: "onboarding.platforms.facebookDesc",
     available: false,
   },
   {
