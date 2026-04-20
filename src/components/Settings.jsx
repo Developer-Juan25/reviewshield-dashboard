@@ -7,11 +7,18 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 // Configura esta variable en Vercel: VITE_N8N_CHECKOUT_URL
 const N8N_CHECKOUT_URL = import.meta.env.VITE_N8N_CHECKOUT_URL || "";
 
+// Stripe Price IDs (test mode) — no son secretos, son públicos como SKUs
+const PRICE_IDS = {
+  starter: "price_1TMrtN8McuoowxrzefV6y6m5",
+  pro:     "price_1TO9dI8Mcuoowxrz2Io1FMLr",
+  agency:  "price_1TO9dj8McuoowxrzVwXEZKXx",
+};
+
 export default function Settings({ user }) {
   const { t } = useTranslation();
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [upgrading, setUpgrading] = useState(false);
+  const [upgradingPlan, setUpgradingPlan] = useState(null); // "starter"|"pro"|"agency"|null
   const [plan, setPlan] = useState("free");
   const [form, setForm] = useState({
     businessName: "",
@@ -73,17 +80,24 @@ export default function Settings({ user }) {
     }
   };
 
-  const handleUpgrade = async () => {
+  const handleUpgrade = async (targetPlan) => {
     if (!N8N_CHECKOUT_URL) {
       alert("Checkout not configured. Add VITE_N8N_CHECKOUT_URL in Vercel.");
       return;
     }
-    setUpgrading(true);
+    const priceId = PRICE_IDS[targetPlan];
+    if (!priceId) return;
+    setUpgradingPlan(targetPlan);
     try {
       const res = await fetch(N8N_CHECKOUT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.uid, email: user.email }),
+        body: JSON.stringify({
+          userId: user.uid,
+          email: user.email,
+          priceId,
+          planName: targetPlan,
+        }),
       });
       const data = await res.json();
       if (data.url) {
@@ -94,7 +108,7 @@ export default function Settings({ user }) {
     } catch (err) {
       console.error("Error creating checkout session:", err);
       alert("Error starting payment. Please try again.");
-      setUpgrading(false);
+      setUpgradingPlan(null);
     }
   };
 
@@ -224,13 +238,13 @@ export default function Settings({ user }) {
                   </div>
                   <p className="text-gray-500 text-xs mt-1">{t("settings.starterDesc")}</p>
                 </div>
-                {plan !== "starter" && (
+                {plan !== "starter" && plan !== "pro" && plan !== "agency" && (
                   <button
-                    onClick={handleUpgrade}
-                    disabled={upgrading}
+                    onClick={() => handleUpgrade("starter")}
+                    disabled={upgradingPlan !== null}
                     className="bg-blue-600 hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-medium px-3 py-1.5 rounded-lg transition shrink-0"
                   >
-                    {upgrading ? t("settings.redirecting") : t("settings.upgradeBtn")}
+                    {upgradingPlan === "starter" ? t("settings.redirecting") : t("settings.upgradeBtn")}
                   </button>
                 )}
               </div>
@@ -254,11 +268,11 @@ export default function Settings({ user }) {
                 </div>
                 {plan !== "pro" && plan !== "agency" && (
                   <button
-                    disabled
-                    className="bg-gray-700 text-gray-400 text-xs font-medium px-3 py-1.5 rounded-lg cursor-not-allowed shrink-0"
-                    title="Coming soon"
+                    onClick={() => handleUpgrade("pro")}
+                    disabled={upgradingPlan !== null}
+                    className="bg-blue-600 hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-medium px-3 py-1.5 rounded-lg transition shrink-0"
                   >
-                    {t("settings.upgradePro")}
+                    {upgradingPlan === "pro" ? t("settings.redirecting") : t("settings.upgradePro")}
                   </button>
                 )}
               </div>
@@ -279,11 +293,11 @@ export default function Settings({ user }) {
                 </div>
                 {plan !== "agency" && (
                   <button
-                    disabled
-                    className="bg-gray-700 text-gray-400 text-xs font-medium px-3 py-1.5 rounded-lg cursor-not-allowed shrink-0"
-                    title="Coming soon"
+                    onClick={() => handleUpgrade("agency")}
+                    disabled={upgradingPlan !== null}
+                    className="bg-purple-600 hover:bg-purple-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-medium px-3 py-1.5 rounded-lg transition shrink-0"
                   >
-                    {t("settings.upgradeAgency")}
+                    {upgradingPlan === "agency" ? t("settings.redirecting") : t("settings.upgradeAgency")}
                   </button>
                 )}
               </div>
