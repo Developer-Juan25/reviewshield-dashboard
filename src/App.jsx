@@ -9,6 +9,10 @@ import Onboarding from "./components/Onboarding";
 
 function SuccessPage() {
   const { t } = useTranslation();
+  const raw = localStorage.getItem("pendingPlan") || "starter";
+  localStorage.removeItem("pendingPlan");
+  const planName = raw.charAt(0).toUpperCase() + raw.slice(1);
+
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center">
       <div className="text-center px-6">
@@ -19,7 +23,7 @@ function SuccessPage() {
         <p className="text-gray-400 mb-2">
           {t("success.subtitle")}{" "}
           <span className="text-blue-400 font-semibold">
-            {t("success.plan")}
+            ReviewShield {planName}
           </span>{" "}
           {t("success.detail")}
         </p>

@@ -25,8 +25,11 @@ dist-ssr
 
 .vercel
 
-# Graphify (archivos generados)
+# Graphify (solo ignorar cache y estado local, trackear GRAPH_REPORT + graph.json)
 graphify-out/
+src/.graphify/cache/
+src/.graphify/worktree.json
+src/.graphify/branch.json
 
 # Claude Code
 .claude/

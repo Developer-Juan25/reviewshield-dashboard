@@ -1,9 +1,9 @@
 ## graphify
 
-This project has a graphify knowledge graph at .graphify/.
+This project has a graphify knowledge graph at src/.graphify/.
 
 Rules:
-- Before answering architecture or codebase questions, read .graphify/GRAPH_REPORT.md for god nodes and community structure
+- Before answering architecture or codebase questions, read src/.graphify/GRAPH_REPORT.md for god nodes and community structure
 - If .graphify/wiki/index.md exists, navigate it instead of reading raw files
 - If .graphify/graph.json is missing but graphify-out/graph.json exists, run `graphify migrate-state --dry-run` first; if tracked legacy artifacts are reported, ask before using the recommended `git mv -f graphify-out .graphify` and commit message
 - If .graphify/needs_update exists or .graphify/branch.json has stale=true, warn before relying on semantic results and run /graphify . --update when appropriate

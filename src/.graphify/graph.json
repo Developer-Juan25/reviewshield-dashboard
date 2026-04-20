@@ -1,0 +1,408 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "community_labels": {
+      "0": "Community 0",
+      "1": "Community 1",
+      "2": "Community 2",
+      "3": "Community 3",
+      "4": "Community 4"
+    }
+  },
+  "nodes": [
+    {
+      "id": "app",
+      "label": "App.jsx",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\App.jsx",
+      "source_location": "L1",
+      "community": 1,
+      "community_name": "Community 1"
+    },
+    {
+      "id": "app_successpage",
+      "label": "SuccessPage()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\App.jsx",
+      "source_location": "L10",
+      "community": 1,
+      "community_name": "Community 1"
+    },
+    {
+      "id": "app_app",
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\App.jsx",
+      "source_location": "L40",
+      "community": 1,
+      "community_name": "Community 1"
+    },
+    {
+      "id": "dashboard",
+      "label": "Dashboard.jsx",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Dashboard.jsx",
+      "source_location": "L1",
+      "community": 0,
+      "community_name": "Community 0"
+    },
+    {
+      "id": "dashboard_dashboard",
+      "label": "Dashboard()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Dashboard.jsx",
+      "source_location": "L19",
+      "community": 0,
+      "community_name": "Community 0"
+    },
+    {
+      "id": "login",
+      "label": "Login.jsx",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Login.jsx",
+      "source_location": "L1",
+      "community": 2,
+      "community_name": "Community 2"
+    },
+    {
+      "id": "login_login",
+      "label": "Login()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Login.jsx",
+      "source_location": "L10",
+      "community": 2,
+      "community_name": "Community 2"
+    },
+    {
+      "id": "onboarding",
+      "label": "Onboarding.jsx",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Onboarding.jsx",
+      "source_location": "L1",
+      "community": 1,
+      "community_name": "Community 1"
+    },
+    {
+      "id": "onboarding_onboarding",
+      "label": "Onboarding()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Onboarding.jsx",
+      "source_location": "L46",
+      "community": 1,
+      "community_name": "Community 1"
+    },
+    {
+      "id": "reviewcard",
+      "label": "ReviewCard.jsx",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\ReviewCard.jsx",
+      "source_location": "L1",
+      "community": 0,
+      "community_name": "Community 0"
+    },
+    {
+      "id": "reviewcard_reviewcard",
+      "label": "ReviewCard()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\ReviewCard.jsx",
+      "source_location": "L16",
+      "community": 0,
+      "community_name": "Community 0"
+    },
+    {
+      "id": "settings",
+      "label": "Settings.jsx",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Settings.jsx",
+      "source_location": "L1",
+      "community": 2,
+      "community_name": "Community 2"
+    },
+    {
+      "id": "settings_settings",
+      "label": "Settings()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Settings.jsx",
+      "source_location": "L17",
+      "community": 2,
+      "community_name": "Community 2"
+    },
+    {
+      "id": "statsbar",
+      "label": "StatsBar.jsx",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\StatsBar.jsx",
+      "source_location": "L1",
+      "community": 0,
+      "community_name": "Community 0"
+    },
+    {
+      "id": "statsbar_statsbar",
+      "label": "StatsBar()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\StatsBar.jsx",
+      "source_location": "L3",
+      "community": 0,
+      "community_name": "Community 0"
+    },
+    {
+      "id": "firebase",
+      "label": "firebase.js",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\firebase.js",
+      "source_location": "L1",
+      "community": 2,
+      "community_name": "Community 2"
+    },
+    {
+      "id": "index",
+      "label": "index.js",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\i18n\\index.js",
+      "source_location": "L1",
+      "community": 3,
+      "community_name": "Community 3"
+    },
+    {
+      "id": "main",
+      "label": "main.jsx",
+      "file_type": "code",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\main.jsx",
+      "source_location": "L1",
+      "community": 4,
+      "community_name": "Community 4"
+    }
+  ],
+  "links": [
+    {
+      "source": "app",
+      "target": "firebase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\firebase.js",
+      "source_location": "L1",
+      "weight": 1,
+      "_src": "firebase",
+      "_tgt": "app",
+      "confidence_score": 1
+    },
+    {
+      "source": "app",
+      "target": "dashboard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\App.jsx",
+      "source_location": "L6",
+      "weight": 1,
+      "_src": "app",
+      "_tgt": "dashboard",
+      "confidence_score": 1
+    },
+    {
+      "source": "app",
+      "target": "login",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\App.jsx",
+      "source_location": "L7",
+      "weight": 1,
+      "_src": "app",
+      "_tgt": "login",
+      "confidence_score": 1
+    },
+    {
+      "source": "app",
+      "target": "onboarding",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\App.jsx",
+      "source_location": "L8",
+      "weight": 1,
+      "_src": "app",
+      "_tgt": "onboarding",
+      "confidence_score": 1
+    },
+    {
+      "source": "app",
+      "target": "app_successpage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\App.jsx",
+      "source_location": "L10",
+      "weight": 1,
+      "_src": "app",
+      "_tgt": "app_successpage",
+      "confidence_score": 1
+    },
+    {
+      "source": "app",
+      "target": "app_app",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\App.jsx",
+      "source_location": "L40",
+      "weight": 1,
+      "_src": "app",
+      "_tgt": "app_app",
+      "confidence_score": 1
+    },
+    {
+      "source": "dashboard",
+      "target": "firebase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Dashboard.jsx",
+      "source_location": "L3",
+      "weight": 1,
+      "_src": "dashboard",
+      "_tgt": "firebase",
+      "confidence_score": 1
+    },
+    {
+      "source": "dashboard",
+      "target": "reviewcard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Dashboard.jsx",
+      "source_location": "L6",
+      "weight": 1,
+      "_src": "dashboard",
+      "_tgt": "reviewcard",
+      "confidence_score": 1
+    },
+    {
+      "source": "dashboard",
+      "target": "statsbar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Dashboard.jsx",
+      "source_location": "L7",
+      "weight": 1,
+      "_src": "dashboard",
+      "_tgt": "statsbar",
+      "confidence_score": 1
+    },
+    {
+      "source": "dashboard",
+      "target": "settings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Dashboard.jsx",
+      "source_location": "L8",
+      "weight": 1,
+      "_src": "dashboard",
+      "_tgt": "settings",
+      "confidence_score": 1
+    },
+    {
+      "source": "dashboard",
+      "target": "dashboard_dashboard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Dashboard.jsx",
+      "source_location": "L19",
+      "weight": 1,
+      "_src": "dashboard",
+      "_tgt": "dashboard_dashboard",
+      "confidence_score": 1
+    },
+    {
+      "source": "login",
+      "target": "firebase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Login.jsx",
+      "source_location": "L8",
+      "weight": 1,
+      "_src": "login",
+      "_tgt": "firebase",
+      "confidence_score": 1
+    },
+    {
+      "source": "login",
+      "target": "login_login",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Login.jsx",
+      "source_location": "L10",
+      "weight": 1,
+      "_src": "login",
+      "_tgt": "login_login",
+      "confidence_score": 1
+    },
+    {
+      "source": "onboarding",
+      "target": "firebase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Onboarding.jsx",
+      "source_location": "L3",
+      "weight": 1,
+      "_src": "onboarding",
+      "_tgt": "firebase",
+      "confidence_score": 1
+    },
+    {
+      "source": "onboarding",
+      "target": "onboarding_onboarding",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Onboarding.jsx",
+      "source_location": "L46",
+      "weight": 1,
+      "_src": "onboarding",
+      "_tgt": "onboarding_onboarding",
+      "confidence_score": 1
+    },
+    {
+      "source": "reviewcard",
+      "target": "reviewcard_reviewcard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\ReviewCard.jsx",
+      "source_location": "L16",
+      "weight": 1,
+      "_src": "reviewcard",
+      "_tgt": "reviewcard_reviewcard",
+      "confidence_score": 1
+    },
+    {
+      "source": "settings",
+      "target": "firebase",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Settings.jsx",
+      "source_location": "L3",
+      "weight": 1,
+      "_src": "settings",
+      "_tgt": "firebase",
+      "confidence_score": 1
+    },
+    {
+      "source": "settings",
+      "target": "settings_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\Settings.jsx",
+      "source_location": "L17",
+      "weight": 1,
+      "_src": "settings",
+      "_tgt": "settings_settings",
+      "confidence_score": 1
+    },
+    {
+      "source": "statsbar",
+      "target": "statsbar_statsbar",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\juanp\\Documents\\Proyectos\\reviewshield-dashboard\\src\\components\\StatsBar.jsx",
+      "source_location": "L3",
+      "weight": 1,
+      "_src": "statsbar",
+      "_tgt": "statsbar_statsbar",
+      "confidence_score": 1
+    }
+  ],
+  "hyperedges": []
+}

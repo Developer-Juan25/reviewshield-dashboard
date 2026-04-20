@@ -101,6 +101,7 @@ export default function Settings({ user }) {
       });
       const data = await res.json();
       if (data.url) {
+        localStorage.setItem("pendingPlan", targetPlan);
         window.location.href = data.url;
       } else {
         throw new Error("No URL returned from checkout");
