@@ -79,6 +79,21 @@ export default function Onboarding({ user, onComplete }) {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });
+
+      // Fire welcome email — non-blocking, failure doesn't affect onboarding flow
+      const onboardingUrl = import.meta.env.VITE_N8N_ONBOARDING_URL;
+      if (onboardingUrl) {
+        fetch(onboardingUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            businessName: form.businessName,
+            alertEmail: form.alertEmail,
+            userId: user.uid,
+          }),
+        }).catch(() => {});
+      }
+
       onComplete();
     } catch (err) {
       console.error("Error saving onboarding:", err);
