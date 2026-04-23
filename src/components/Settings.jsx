@@ -18,8 +18,9 @@ export default function Settings({ user }) {
   const { t } = useTranslation();
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [upgradingPlan, setUpgradingPlan] = useState(null); // "starter"|"pro"|"agency"|null
+  const [upgradingPlan, setUpgradingPlan] = useState(null);
   const [plan, setPlan] = useState("free");
+  const [checkoutError, setCheckoutError] = useState(null);
   const [form, setForm] = useState({
     businessName: "",
     alertEmail: user?.email || "",
@@ -83,12 +84,13 @@ export default function Settings({ user }) {
 
   const handleUpgrade = async (targetPlan) => {
     if (!N8N_CHECKOUT_URL) {
-      alert("Checkout not configured. Add VITE_N8N_CHECKOUT_URL in Vercel.");
+      setCheckoutError("Payment not configured. Please contact support.");
       return;
     }
     const priceId = PRICE_IDS[targetPlan];
     if (!priceId) return;
     setUpgradingPlan(targetPlan);
+    setCheckoutError(null);
     try {
       const res = await fetch(N8N_CHECKOUT_URL, {
         method: "POST",
@@ -100,16 +102,17 @@ export default function Settings({ user }) {
           planName: targetPlan,
         }),
       });
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
       const data = await res.json();
       if (data.url) {
         localStorage.setItem("pendingPlan", targetPlan);
         window.location.href = data.url;
       } else {
-        throw new Error("No URL returned from checkout");
+        throw new Error("No checkout URL returned");
       }
     } catch (err) {
       console.error("Error creating checkout session:", err);
-      alert("Error starting payment. Please try again.");
+      setCheckoutError("Payment unavailable. Please try again in a moment.");
       setUpgradingPlan(null);
     }
   };
@@ -307,7 +310,12 @@ export default function Settings({ user }) {
             </div>
           </div>
 
-          {plan === "free" && (
+          {checkoutError && (
+            <p className="text-red-400 text-xs mt-3 text-center bg-red-500/10 border border-red-500/20 rounded-lg py-2 px-3">
+              ⚠️ {checkoutError}
+            </p>
+          )}
+          {plan === "free" && !checkoutError && (
             <p className="text-gray-600 text-xs mt-3 text-center">{t("settings.upgradeHint")}</p>
           )}
           <p className="text-gray-700 text-xs mt-2 text-center">
