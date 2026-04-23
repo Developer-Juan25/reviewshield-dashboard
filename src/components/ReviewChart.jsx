@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   ComposedChart,
   Bar,
@@ -49,7 +50,7 @@ function buildWeeklyData(reviews) {
   }));
 }
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, tReviews, tAvg }) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-xs shadow-xl">
@@ -57,8 +58,8 @@ const CustomTooltip = ({ active, payload, label }) => {
       {payload.map((p) => (
         <p key={p.name} style={{ color: p.color }}>
           {p.name === "reviews"
-            ? `📋 ${p.value} review${p.value !== 1 ? "s" : ""}`
-            : `⭐ ${p.value} avg`}
+            ? `📋 ${p.value} ${tReviews}`
+            : `⭐ ${p.value} ${tAvg}`}
         </p>
       ))}
     </div>
@@ -66,6 +67,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function ReviewChart({ reviews }) {
+  const { t } = useTranslation();
   if (!reviews || reviews.length === 0) return null;
 
   const data = buildWeeklyData(reviews);
@@ -75,8 +77,8 @@ export default function ReviewChart({ reviews }) {
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-white font-semibold text-sm">Rating trend &amp; volume</h3>
-        <span className="text-gray-500 text-xs">Last 8 weeks</span>
+        <h3 className="text-white font-semibold text-sm">{t("chart.title")}</h3>
+        <span className="text-gray-500 text-xs">{t("chart.period")}</span>
       </div>
       <ResponsiveContainer width="100%" height={180}>
         <ComposedChart data={data} margin={{ top: 5, right: 10, left: -22, bottom: 0 }}>
@@ -102,7 +104,7 @@ export default function ReviewChart({ reviews }) {
             axisLine={false}
             tickLine={false}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip tReviews={t("chart.reviews")} tAvg={t("chart.avgRating")} />} />
           <Bar
             yAxisId="left"
             dataKey="reviews"
@@ -125,11 +127,11 @@ export default function ReviewChart({ reviews }) {
       <div className="flex items-center gap-5 mt-3">
         <span className="flex items-center gap-1.5 text-xs text-gray-500">
           <span className="w-3 h-3 rounded-sm bg-blue-600 opacity-75 inline-block" />
-          Reviews
+          {t("chart.reviews")}
         </span>
         <span className="flex items-center gap-1.5 text-xs text-gray-500">
           <span className="w-3 h-0.5 bg-yellow-400 inline-block" />
-          Avg Rating
+          {t("chart.avgRating")}
         </span>
       </div>
     </div>

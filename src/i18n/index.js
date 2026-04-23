@@ -90,6 +90,15 @@ const resources = {
         total: "Total Reviews",
         negative: "Negative",
         avgRating: "Avg Rating",
+        last30days: "Last 30 days",
+        requiresAttention: "Requires attention",
+        allPlatforms: "Across all platforms",
+      },
+      chart: {
+        title: "Rating trend & volume",
+        period: "Last 8 weeks",
+        reviews: "Reviews",
+        avgRating: "Avg Rating",
       },
       // Review Card
       review: {
@@ -97,6 +106,10 @@ const resources = {
         noResponse: "No AI response generated yet.",
         negative: "Negative",
         positive: "Positive",
+        replyWithAi: "Reply with AI ▼",
+        hide: "Hide ▲",
+        copy: "Copy reply",
+        copied: "✓ Copied!",
       },
       // Settings
       settings: {
@@ -232,12 +245,25 @@ const resources = {
         total: "Total reseñas",
         negative: "Negativas",
         avgRating: "Calificación promedio",
+        last30days: "Últimos 30 días",
+        requiresAttention: "Requiere atención",
+        allPlatforms: "En todas las plataformas",
+      },
+      chart: {
+        title: "Tendencia de calificación y volumen",
+        period: "Últimas 8 semanas",
+        reviews: "Reseñas",
+        avgRating: "Cal. promedio",
       },
       review: {
         aiResponse: "Respuesta IA:",
         noResponse: "Sin respuesta IA generada aún.",
         negative: "Negativa",
         positive: "Positiva",
+        replyWithAi: "Responder con IA ▼",
+        hide: "Ocultar ▲",
+        copy: "Copiar respuesta",
+        copied: "✓ ¡Copiado!",
       },
       settings: {
         title: "Configuración",

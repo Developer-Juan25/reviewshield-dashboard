@@ -76,7 +76,7 @@ export default function ReviewCard({ review }) {
             onClick={() => setExpanded(!expanded)}
             className="text-gray-500 hover:text-white text-xs transition flex-shrink-0 whitespace-nowrap"
           >
-            {expanded ? "Hide ▲" : "Reply with AI ▼"}
+            {expanded ? t("review.hide") : t("review.replyWithAi")}
           </button>
         )}
       </div>
@@ -96,7 +96,7 @@ export default function ReviewCard({ review }) {
                   : "bg-blue-600 hover:bg-blue-500 text-white"
               }`}
             >
-              {copied ? "✓ Copied!" : "Copy reply"}
+              {copied ? t("review.copied") : t("review.copy")}
             </button>
           </div>
           <p className="text-gray-300 text-sm leading-relaxed">
