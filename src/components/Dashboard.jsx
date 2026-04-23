@@ -5,6 +5,7 @@ import { collection, onSnapshot, orderBy, query, where, doc, getDoc } from "fire
 import { signOut } from "firebase/auth";
 import ReviewCard from "./ReviewCard";
 import StatsBar from "./StatsBar";
+import ReviewChart from "./ReviewChart";
 import Settings from "./Settings";
 import i18n from "../i18n";
 
@@ -138,7 +139,19 @@ export default function Dashboard({ user }) {
       <div className="border-b border-gray-800 bg-gray-900 px-6">
         <div className="flex gap-6 max-w-5xl mx-auto">
           {[
-            { key: "dashboard", label: t("dashboard.tabs.reviews") },
+            {
+              key: "dashboard",
+              label: (
+                <span className="flex items-center gap-1.5">
+                  {t("dashboard.tabs.reviews")}
+                  {negativeCount > 0 && (
+                    <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                      {negativeCount}
+                    </span>
+                  )}
+                </span>
+              ),
+            },
             { key: "settings", label: t("dashboard.tabs.settings") },
           ].map((tab) => (
             <button
@@ -166,6 +179,8 @@ export default function Dashboard({ user }) {
             negative={negativeCount}
             avgRating={avgRating}
           />
+
+          <ReviewChart reviews={reviews} />
 
           <div className="flex gap-2 mb-6">
             {[

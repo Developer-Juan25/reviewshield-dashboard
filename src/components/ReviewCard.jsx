@@ -16,7 +16,7 @@ const PLATFORM_ICONS = {
 export default function ReviewCard({ review }) {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
-  const [expanded, setExpanded] = useState(review.isNegative);
+  const [expanded, setExpanded] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(review.aiResponse);
@@ -70,19 +70,19 @@ export default function ReviewCard({ review }) {
           </div>
         </div>
 
-        {/* Expand toggle for negative */}
-        {review.isNegative && (
+        {/* Expand toggle — show for any review with an AI response */}
+        {review.aiResponse && (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="text-gray-500 hover:text-white text-xs transition flex-shrink-0"
+            className="text-gray-500 hover:text-white text-xs transition flex-shrink-0 whitespace-nowrap"
           >
-            {expanded ? "Hide ▲" : "AI Response ▼"}
+            {expanded ? "Hide ▲" : "Reply with AI ▼"}
           </button>
         )}
       </div>
 
-      {/* AI Response */}
-      {review.isNegative && expanded && review.aiResponse && (
+      {/* AI Response panel */}
+      {expanded && review.aiResponse && (
         <div className="mt-4 bg-blue-950/30 border border-blue-900/40 rounded-lg p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-blue-400 text-xs font-medium uppercase tracking-wider">
@@ -96,7 +96,7 @@ export default function ReviewCard({ review }) {
                   : "bg-blue-600 hover:bg-blue-500 text-white"
               }`}
             >
-              {copied ? "✓ Copied!" : "Copy"}
+              {copied ? "✓ Copied!" : "Copy reply"}
             </button>
           </div>
           <p className="text-gray-300 text-sm leading-relaxed">
