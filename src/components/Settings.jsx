@@ -3,15 +3,11 @@ import { useTranslation } from "react-i18next";
 import { db } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
-// URL del webhook N8N para crear sesión de Stripe
-// Configura esta variable en Vercel: VITE_N8N_CHECKOUT_URL
-const N8N_CHECKOUT_URL = import.meta.env.VITE_N8N_CHECKOUT_URL || "";
-
-// Stripe Price IDs (test mode) — no son secretos, son públicos como SKUs
-const PRICE_IDS = {
-  starter: "price_1TMrtN8McuoowxrzefV6y6m5",
-  pro:     "price_1TO9dI8Mcuoowxrz2Io1FMLr",
-  agency:  "price_1TO9dj8McuoowxrzVwXEZKXx",
+// Lemon Squeezy checkout URLs — direct links, no backend needed
+const LS_CHECKOUT_URLS = {
+  starter: "https://reviewshield-app.lemonsqueezy.com/checkout/buy/b3f90e82-e24e-4666-90bb-ad7e32eea4df",
+  pro:     "https://reviewshield-app.lemonsqueezy.com/checkout/buy/7d70b9cd-0f71-4a06-aed8-93b2d74fb07b",
+  agency:  "https://reviewshield-app.lemonsqueezy.com/checkout/buy/db08341f-bf8b-40f0-aa43-e6514444023f",
 };
 
 export default function Settings({ user }) {
@@ -82,39 +78,17 @@ export default function Settings({ user }) {
     }
   };
 
-  const handleUpgrade = async (targetPlan) => {
-    if (!N8N_CHECKOUT_URL) {
-      setCheckoutError("Payment not configured. Please contact support.");
-      return;
-    }
-    const priceId = PRICE_IDS[targetPlan];
-    if (!priceId) return;
+  const handleUpgrade = (targetPlan) => {
+    const baseUrl = LS_CHECKOUT_URLS[targetPlan];
+    if (!baseUrl) return;
     setUpgradingPlan(targetPlan);
     setCheckoutError(null);
-    try {
-      const res = await fetch(N8N_CHECKOUT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.uid,
-          email: user.email,
-          priceId,
-          planName: targetPlan,
-        }),
-      });
-      if (!res.ok) throw new Error(`Server error: ${res.status}`);
-      const data = await res.json();
-      if (data.url) {
-        localStorage.setItem("pendingPlan", targetPlan);
-        window.location.href = data.url;
-      } else {
-        throw new Error("No checkout URL returned");
-      }
-    } catch (err) {
-      console.error("Error creating checkout session:", err);
-      setCheckoutError("Payment unavailable. Please try again in a moment.");
-      setUpgradingPlan(null);
-    }
+    // Pre-fill email and pass userId as custom metadata for the webhook
+    const email = encodeURIComponent(user.email || "");
+    const userId = encodeURIComponent(user.uid || "");
+    const url = `${baseUrl}?checkout[email]=${email}&checkout[custom][user_id]=${userId}&checkout[custom][plan]=${targetPlan}`;
+    localStorage.setItem("pendingPlan", targetPlan);
+    window.location.href = url;
   };
 
   if (loading) {
