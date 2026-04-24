@@ -83,10 +83,11 @@ export default function Settings({ user }) {
     if (!baseUrl) return;
     setUpgradingPlan(targetPlan);
     setCheckoutError(null);
-    // Pre-fill email and pass userId as custom metadata for the webhook
+    // Pre-fill email and pass userId + plan as custom metadata for the webhook
     const email = encodeURIComponent(user.email || "");
     const userId = encodeURIComponent(user.uid || "");
-    const url = `${baseUrl}?checkout[email]=${email}&checkout[custom][user_id]=${userId}&checkout[custom][plan]=${targetPlan}`;
+    const redirectUrl = encodeURIComponent("https://app.vykmorix.com");
+    const url = `${baseUrl}?checkout[email]=${email}&checkout[custom][user_id]=${userId}&checkout[custom][plan]=${targetPlan}&redirect_url=${redirectUrl}`;
     localStorage.setItem("pendingPlan", targetPlan);
     window.location.href = url;
   };
