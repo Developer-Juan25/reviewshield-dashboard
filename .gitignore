@@ -27,6 +27,7 @@ dist-ssr
 
 # Graphify (solo ignorar cache y estado local, trackear GRAPH_REPORT + graph.json)
 graphify-out/
+.graphify/
 src/.graphify/cache/
 src/.graphify/worktree.json
 src/.graphify/branch.json
