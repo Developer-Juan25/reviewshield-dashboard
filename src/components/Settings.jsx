@@ -152,7 +152,7 @@ export default function Settings({ user }) {
                 name="googleBusinessId"
                 value={form.googleBusinessId}
                 onChange={handleChange}
-                placeholder="e.g. 15172862745724499656"
+                placeholder="e.g. 0x8e24d99d8f5ab6eb:0xc8d7cc2022282bc7"
                 className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
               />
             </div>
