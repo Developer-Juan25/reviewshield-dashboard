@@ -6,11 +6,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
-          vendor: ['react', 'react-dom'],
-          i18n: ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
-          charts: ['recharts'],
+        manualChunks: (id) => {
+          if (id.includes('firebase')) return 'firebase';
+          if (id.includes('react-dom') || id.includes('/node_modules/react/')) return 'vendor';
+          if (id.includes('i18next')) return 'i18next';
+          if (id.includes('recharts')) return 'charts';
         },
       },
     },
