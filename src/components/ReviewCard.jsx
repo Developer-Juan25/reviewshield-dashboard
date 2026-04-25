@@ -42,7 +42,7 @@ export default function ReviewCard({ review }) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="text-white font-medium text-sm">
-                {review.reviewerName}
+                {review.authorName || review.reviewerName || "Anonymous"}
               </span>
               <span className="text-gray-500 text-xs">{review.timestamp}</span>
               {review.isNegative && (
@@ -57,7 +57,7 @@ export default function ReviewCard({ review }) {
               {[1, 2, 3, 4, 5].map((s) => (
                 <span
                   key={s}
-                  className={`text-sm ${s <= review.rating ? "text-yellow-400" : "text-gray-700"}`}
+                  className={`text-sm ${s <= Number(review.rating) ? "text-yellow-400" : "text-gray-700"}`}
                 >
                   ★
                 </span>

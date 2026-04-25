@@ -73,7 +73,7 @@ export default function Dashboard({ user }) {
   const negativeCount = reviews.filter((r) => r.isNegative).length;
   const avgRating =
     reviews.length > 0
-      ? (reviews.reduce((a, b) => a + b.rating, 0) / reviews.length).toFixed(1)
+      ? (reviews.reduce((a, b) => a + Number(b.rating), 0) / reviews.length).toFixed(1)
       : "0.0";
 
   const reviewWord = filtered.length === 1 ? t("dashboard.review") : t("dashboard.reviews");
