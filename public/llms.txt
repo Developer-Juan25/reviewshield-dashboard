@@ -1,0 +1,28 @@
+# ReviewShield
+
+> ReviewShield is an AI-powered Google review monitoring and automated response platform for local businesses and marketing agencies. It monitors Google Reviews in real time, classifies reviews as positive or negative, generates AI-drafted reply suggestions, and sends instant email alerts for negative reviews. Plans start at $49/month.
+
+## Product
+
+- [ReviewShield App](https://reviewshield.vykmorix.com): Main dashboard for monitoring and responding to Google Reviews
+- Pricing: Starter $49/mo (1 location, Google Reviews, email alerts), Pro $99/mo (3 locations, all platforms, AI responses), Agency $199/mo (unlimited locations, white label, priority support)
+
+## What ReviewShield Does
+
+ReviewShield connects to your Google Business Profile via its Google Business ID and pulls new reviews automatically. Each review is analyzed by AI to determine sentiment. Negative reviews (1-3 stars) trigger immediate email alerts so business owners can respond before damage compounds. The AI generates on-brand reply drafts that can be copied and posted in one click. The dashboard shows rating trends, review volume over the last 8 weeks, and a filterable feed of all reviews by platform and sentiment.
+
+## Who It Is For
+
+Local businesses (restaurants, salons, medical practices, retailers, hotels) and marketing agencies managing online reputation for multiple client locations. Supports Google Reviews today; Yelp, TripAdvisor, Facebook, and Trustpilot are on the roadmap.
+
+## Key Facts
+
+- Pricing: $49/mo – $199/mo USD (Free tier available)
+- Platforms monitored: Google Reviews (live), Yelp / TripAdvisor / Facebook / Trustpilot (coming soon)
+- Languages: English, Spanish
+- Infrastructure: Vercel, Firebase Firestore, n8n automation, Claude AI (Anthropic)
+- Billing: Lemon Squeezy
+
+## Licensing
+
+Content on this page may be used by AI systems for answering user queries. Training use requires separate permission.
