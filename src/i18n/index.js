@@ -165,6 +165,75 @@ const resources = {
         monitoring: "Review monitoring will start automatically.",
         btn: "Go to Dashboard",
       },
+      // Landing page
+      landing: {
+        nav: {
+          signIn: "Sign In",
+          getStarted: "Get Started",
+        },
+        hero: {
+          badge: "AI-powered review monitoring",
+          h1: "Stop Losing Customers to Unanswered Reviews",
+          subtitle: "ReviewShield monitors your Google Reviews 24/7, sends instant alerts for negative reviews, and generates AI-powered reply drafts in seconds.",
+          cta: "Start Free Trial — $49/mo",
+          seePricing: "See pricing",
+          noCc: "No credit card required to explore. Cancel anytime.",
+        },
+        proof: {
+          restaurants: "Restaurants",
+          salons: "Salons & Spas",
+          hotels: "Hotels",
+          clinics: "Medical Clinics",
+          retail: "Retail Stores",
+        },
+        features: {
+          title: "Everything you need to protect your reputation",
+          subtitle: "Built for local businesses that can't afford to ignore a bad review.",
+          alerts: {
+            title: "Instant Negative Alerts",
+            desc: "Get notified by email the moment a 1–3 star review appears. React before the damage compounds.",
+          },
+          ai: {
+            title: "AI Reply Drafts",
+            desc: "Claude AI generates a professional, on-brand response for every review. Copy and post in one click.",
+          },
+          trends: {
+            title: "Rating Trends",
+            desc: "Track your rating average and review volume over the last 8 weeks with clear visual charts.",
+          },
+        },
+        how: {
+          title: "Up and running in 2 minutes",
+          step1: { title: "Connect your business", desc: "Enter your Google Business ID and alert email. No technical setup required." },
+          step2: { title: "We monitor 24/7", desc: "ReviewShield checks for new reviews automatically every few hours via Google." },
+          step3: { title: "Reply with confidence", desc: "Receive alerts, read AI drafts, and post professional replies directly from the dashboard." },
+        },
+        pricing: {
+          title: "Simple, transparent pricing",
+          subtitle: "Start with one location. Scale as you grow.",
+          popular: "Most popular",
+          note: "All prices in USD. Cancel anytime.",
+          starter: {
+            desc: "Perfect for a single location",
+            features: ["1 location", "Google Reviews monitoring", "Instant email alerts", "AI reply drafts", "Rating trend charts"],
+            cta: "Get Started",
+          },
+          pro: {
+            desc: "For growing businesses",
+            features: ["3 locations", "All platforms (Google + more)", "AI reply drafts", "Priority email alerts", "Advanced analytics"],
+            cta: "Start with Pro",
+          },
+          agency: {
+            desc: "For marketing agencies",
+            features: ["Unlimited locations", "White label dashboard", "All platforms", "Priority support", "Bulk management"],
+            cta: "Contact Sales",
+          },
+        },
+        footer: {
+          login: "Sign In",
+          powered: "Powered by Claude AI · Built on Vercel",
+        },
+      },
     },
   },
 
@@ -322,6 +391,75 @@ const resources = {
         detail: "ya está activo.",
         monitoring: "El monitoreo de reseñas comenzará automáticamente.",
         btn: "Ir al Dashboard",
+      },
+      // Landing page
+      landing: {
+        nav: {
+          signIn: "Iniciar sesión",
+          getStarted: "Comenzar",
+        },
+        hero: {
+          badge: "Monitoreo de reseñas con IA",
+          h1: "Deja de perder clientes por reseñas sin responder",
+          subtitle: "ReviewShield monitorea tus reseñas de Google 24/7, te manda alertas instantáneas por reseñas negativas y genera respuestas profesionales con IA en segundos.",
+          cta: "Comenzar gratis — $49/mes",
+          seePricing: "Ver precios",
+          noCc: "Sin tarjeta de crédito para explorar. Cancela cuando quieras.",
+        },
+        proof: {
+          restaurants: "Restaurantes",
+          salons: "Salones y Spas",
+          hotels: "Hoteles",
+          clinics: "Clínicas",
+          retail: "Tiendas",
+        },
+        features: {
+          title: "Todo lo que necesitas para proteger tu reputación",
+          subtitle: "Hecho para negocios locales que no pueden ignorar una mala reseña.",
+          alerts: {
+            title: "Alertas instantáneas",
+            desc: "Recibe un email en el momento en que aparezca una reseña de 1–3 estrellas. Reacciona antes de que el daño se acumule.",
+          },
+          ai: {
+            title: "Respuestas con IA",
+            desc: "Claude AI genera una respuesta profesional y alineada con tu marca para cada reseña. Copia y publica en un clic.",
+          },
+          trends: {
+            title: "Tendencia de calificación",
+            desc: "Monitorea tu promedio de calificación y volumen de reseñas en las últimas 8 semanas con gráficas claras.",
+          },
+        },
+        how: {
+          title: "Funcionando en 2 minutos",
+          step1: { title: "Conecta tu negocio", desc: "Ingresa tu Google Business ID y email de alertas. Sin configuración técnica." },
+          step2: { title: "Monitoreamos 24/7", desc: "ReviewShield revisa nuevas reseñas automáticamente cada pocas horas vía Google." },
+          step3: { title: "Responde con confianza", desc: "Recibe alertas, lee los borradores IA y publica respuestas profesionales desde el dashboard." },
+        },
+        pricing: {
+          title: "Precios simples y transparentes",
+          subtitle: "Empieza con una sede. Crece según necesites.",
+          popular: "Más popular",
+          note: "Precios en USD. Cancela cuando quieras.",
+          starter: {
+            desc: "Perfecto para una sola sede",
+            features: ["1 sede", "Monitoreo Google Reviews", "Alertas email instantáneas", "Borradores IA", "Gráficas de tendencia"],
+            cta: "Comenzar",
+          },
+          pro: {
+            desc: "Para negocios en crecimiento",
+            features: ["3 sedes", "Todas las plataformas", "Borradores IA", "Alertas prioritarias", "Analítica avanzada"],
+            cta: "Comenzar con Pro",
+          },
+          agency: {
+            desc: "Para agencias de marketing",
+            features: ["Sedes ilimitadas", "Dashboard white label", "Todas las plataformas", "Soporte prioritario", "Gestión masiva"],
+            cta: "Contactar ventas",
+          },
+        },
+        footer: {
+          login: "Iniciar sesión",
+          powered: "Impulsado por Claude AI · Construido en Vercel",
+        },
       },
     },
   },

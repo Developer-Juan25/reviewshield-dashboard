@@ -6,6 +6,7 @@ import { auth, db } from "./firebase";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import Onboarding from "./components/Onboarding";
+import LandingPage from "./components/LandingPage";
 
 function SuccessPage() {
   const { t } = useTranslation();
@@ -45,7 +46,10 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hasSettings, setHasSettings] = useState(null);
-  const isSuccess = window.location.pathname === "/success";
+
+  const path = window.location.pathname;
+  const isSuccess = path === "/success";
+  const isLogin = path === "/login";
 
   useEffect(() => {
     if (isSuccess) return;
@@ -72,16 +76,15 @@ export default function App() {
     );
   }
 
-  if (!user) return <Login />;
-
-  if (!hasSettings) {
-    return (
-      <Onboarding
-        user={user}
-        onComplete={() => setHasSettings(true)}
-      />
-    );
+  // Authenticated users go straight to app regardless of path
+  if (user) {
+    if (!hasSettings) {
+      return <Onboarding user={user} onComplete={() => setHasSettings(true)} />;
+    }
+    return <Dashboard user={user} />;
   }
 
-  return <Dashboard user={user} />;
+  // Unauthenticated routing
+  if (isLogin) return <Login />;
+  return <LandingPage />;
 }
