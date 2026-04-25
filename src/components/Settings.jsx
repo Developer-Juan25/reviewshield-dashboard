@@ -20,7 +20,6 @@ export default function Settings({ user }) {
   const [form, setForm] = useState({
     businessName: "",
     alertEmail: user?.email || "",
-    phone: "",
     googleBusinessId: "",
     platforms: {
       google: true,
@@ -138,22 +137,6 @@ export default function Settings({ user }) {
                 value={form.alertEmail}
                 onChange={handleChange}
                 placeholder="owner@yourbusiness.com"
-                className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
-              />
-            </div>
-            <div>
-              <label className="text-gray-400 text-sm mb-2 block">
-                {t("settings.phone")}
-                <span className="text-gray-600 ml-2 text-xs">
-                  ({t("settings.phoneHint")})
-                </span>
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={form.phone}
-                onChange={handleChange}
-                placeholder={t("settings.phonePlaceholder")}
                 className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
               />
             </div>
