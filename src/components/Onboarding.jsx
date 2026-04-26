@@ -73,13 +73,17 @@ export default function Onboarding({ user, onComplete }) {
   const handleFinish = async () => {
     setSaving(true);
     try {
+      const now = new Date();
+      const trialEndsAt = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000).toISOString();
       await setDoc(doc(db, "settings", user.uid), {
         ...form,
-        plan: "free",
+        plan: "trial",
+        trialStartedAt: now.toISOString(),
+        trialEndsAt,
         ownerId: user.uid,
         ownerEmail: user.email,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: now.toISOString(),
+        updatedAt: now.toISOString(),
       });
 
       // Fire welcome email — non-blocking, failure doesn't affect onboarding flow

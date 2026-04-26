@@ -22,21 +22,30 @@ export default function Dashboard({ user }) {
   const [page, setPage] = useState("dashboard");
   const [businessName, setBusinessName] = useState("");
   const [langOpen, setLangOpen] = useState(false);
+  const [trialDaysLeft, setTrialDaysLeft] = useState(null);
+  const [plan, setPlan] = useState("free");
   const currentLang = i18n.language?.slice(0, 2) || "en";
 
-  // Load business name from settings
+  // Load settings (businessName + trial info)
   useEffect(() => {
-    const loadBusinessName = async () => {
+    const loadSettings = async () => {
       try {
         const snap = await getDoc(doc(db, "settings", user.uid));
         if (snap.exists()) {
-          setBusinessName(snap.data()?.businessName || "");
+          const data = snap.data();
+          setBusinessName(data?.businessName || "");
+          setPlan(data?.plan || "free");
+          if (data?.plan === "trial" && data?.trialEndsAt) {
+            const msLeft = new Date(data.trialEndsAt) - new Date();
+            const daysLeft = Math.max(0, Math.ceil(msLeft / (1000 * 60 * 60 * 24)));
+            setTrialDaysLeft(daysLeft);
+          }
         }
       } catch (err) {
-        console.error("Error loading business name:", err);
+        console.error("Error loading settings:", err);
       }
     };
-    if (user?.uid) loadBusinessName();
+    if (user?.uid) loadSettings();
   }, [user]);
 
   // Load reviews
@@ -168,6 +177,32 @@ export default function Dashboard({ user }) {
           ))}
         </div>
       </div>
+
+      {/* Trial Banner */}
+      {plan === "trial" && trialDaysLeft !== null && (
+        <div className={`px-6 py-3 flex items-center justify-between text-sm ${
+          trialDaysLeft <= 3
+            ? "bg-red-950/60 border-b border-red-800/50"
+            : "bg-blue-950/60 border-b border-blue-800/40"
+        }`}>
+          <div className="flex items-center gap-3 max-w-5xl mx-auto w-full">
+            <span>{trialDaysLeft <= 3 ? "⚠️" : "🎉"}</span>
+            <span className={trialDaysLeft <= 3 ? "text-red-300" : "text-blue-300"}>
+              {t("trial.banner", { days: trialDaysLeft })}
+            </span>
+            <button
+              onClick={() => setPage("settings")}
+              className={`ml-auto text-xs font-semibold px-3 py-1.5 rounded-lg transition shrink-0 ${
+                trialDaysLeft <= 3
+                  ? "bg-red-600 hover:bg-red-500 text-white"
+                  : "bg-blue-600 hover:bg-blue-500 text-white"
+              }`}
+            >
+              {t("trial.upgrade")}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       {page === "settings" ? (

@@ -162,6 +162,12 @@ const resources = {
         monitoring: "Review monitoring will start automatically.",
         btn: "Go to Dashboard",
       },
+      // Trial
+      trial: {
+        banner: "You have {{days}} days left in your free trial.",
+        upgrade: "Upgrade now →",
+        expired: "Your free trial has ended. Upgrade to keep monitoring your reviews.",
+      },
       // Landing page
       landing: {
         nav: {
@@ -172,9 +178,9 @@ const resources = {
           badge: "AI-powered review monitoring",
           h1: "Stop Losing Customers to Unanswered Reviews",
           subtitle: "ReviewShield monitors your Google Reviews 24/7, sends instant alerts for negative reviews, and generates AI-powered reply drafts in seconds.",
-          cta: "Start Free Trial — $49/mo",
+          cta: "Start 14-Day Free Trial →",
           seePricing: "See pricing",
-          noCc: "No credit card required to explore. Cancel anytime.",
+          noCc: "14 days free · No credit card required · Cancel anytime.",
         },
         proof: {
           restaurants: "Restaurants",
@@ -386,6 +392,12 @@ const resources = {
         monitoring: "El monitoreo de reseñas comenzará automáticamente.",
         btn: "Ir al Dashboard",
       },
+      // Trial
+      trial: {
+        banner: "Te quedan {{days}} días en tu prueba gratuita.",
+        upgrade: "Mejorar plan →",
+        expired: "Tu prueba gratuita terminó. Mejora tu plan para seguir monitoreando tus reseñas.",
+      },
       // Landing page
       landing: {
         nav: {
@@ -396,9 +408,9 @@ const resources = {
           badge: "Monitoreo de reseñas con IA",
           h1: "Deja de perder clientes por reseñas sin responder",
           subtitle: "ReviewShield monitorea tus reseñas de Google 24/7, te manda alertas instantáneas por reseñas negativas y genera respuestas profesionales con IA en segundos.",
-          cta: "Comenzar gratis — $49/mes",
+          cta: "Empezar prueba gratis 14 días →",
           seePricing: "Ver precios",
-          noCc: "Sin tarjeta de crédito para explorar. Cancela cuando quieras.",
+          noCc: "14 días gratis · Sin tarjeta de crédito · Cancela cuando quieras.",
         },
         proof: {
           restaurants: "Restaurantes",
