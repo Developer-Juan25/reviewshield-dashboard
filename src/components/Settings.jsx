@@ -128,6 +128,7 @@ export default function Settings({ user, onSaved }) {
                 value={form.businessName}
                 onChange={handleChange}
                 placeholder="e.g. The Golden Fork Restaurant"
+                maxLength={100}
                 className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
               />
             </div>
@@ -141,6 +142,7 @@ export default function Settings({ user, onSaved }) {
                 value={form.alertEmail}
                 onChange={handleChange}
                 placeholder="owner@yourbusiness.com"
+                maxLength={254}
                 className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
               />
             </div>
@@ -154,6 +156,7 @@ export default function Settings({ user, onSaved }) {
                 value={form.businessCity}
                 onChange={handleChange}
                 placeholder={t("onboarding.business.cityPlaceholder")}
+                maxLength={100}
                 className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
               />
             </div>
@@ -170,6 +173,7 @@ export default function Settings({ user, onSaved }) {
                 value={form.businessAddress}
                 onChange={handleChange}
                 placeholder={t("onboarding.business.addressPlaceholder")}
+                maxLength={200}
                 className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
               />
               <p className="text-gray-600 text-xs mt-1.5">
