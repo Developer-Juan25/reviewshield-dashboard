@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 const PLATFORMS = [
   {
@@ -111,15 +112,29 @@ export default function Onboarding({ user, onComplete }) {
     trustpilot: "Trustpilot",
   };
 
+  const handleExit = async () => {
+    await signOut(auth);
+    window.location.href = "/";
+  };
+
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
       <div className="w-full max-w-lg">
 
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-1">
-            <span className="text-2xl">🛡️</span>
-            <span className="text-white font-bold text-xl tracking-tight">ReviewShield</span>
+          <div className="flex items-center justify-between mb-1">
+            <button
+              onClick={handleExit}
+              className="text-gray-600 hover:text-gray-400 text-sm transition"
+            >
+              ← {t("onboarding.exit")}
+            </button>
+            <div className="inline-flex items-center gap-2">
+              <span className="text-2xl">🛡️</span>
+              <span className="text-white font-bold text-xl tracking-tight">ReviewShield</span>
+            </div>
+            <div className="w-16" /> {/* spacer for centering */}
           </div>
           {currentStep !== "welcome" && currentStep !== "done" && (
             <div className="mt-4">

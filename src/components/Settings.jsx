@@ -10,7 +10,7 @@ const LS_CHECKOUT_URLS = {
   agency:  "https://reviewshield-app.lemonsqueezy.com/checkout/buy/db08341f-bf8b-40f0-aa43-e6514444023f",
 };
 
-export default function Settings({ user }) {
+export default function Settings({ user, onSaved }) {
   const { t } = useTranslation();
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -73,7 +73,10 @@ export default function Settings({ user }) {
         ownerEmail: user.email,
       });
       setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      setTimeout(() => {
+        setSaved(false);
+        onSaved?.();
+      }, 1500);
     } catch (err) {
       console.error("Error saving settings:", err);
     }

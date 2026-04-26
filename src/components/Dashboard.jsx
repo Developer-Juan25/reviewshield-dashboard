@@ -171,7 +171,7 @@ export default function Dashboard({ user }) {
 
       {/* Content */}
       {page === "settings" ? (
-        <Settings user={user} />
+        <Settings user={user} onSaved={() => setPage("dashboard")} />
       ) : (
         <main className="max-w-5xl mx-auto px-6 py-8">
           <StatsBar

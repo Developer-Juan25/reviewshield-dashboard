@@ -69,6 +69,7 @@ const resources = {
           btn: "Go to dashboard →",
           saving: "Saving...",
         },
+        exit: "Exit",
       },
       // Dashboard
       dashboard: {
@@ -227,7 +228,7 @@ const resources = {
         },
         footer: {
           login: "Sign In",
-          powered: "Powered by Claude AI · Built on Vercel",
+          powered: "AI-powered review monitoring",
         },
       },
     },
@@ -297,6 +298,7 @@ const resources = {
           btn: "Ir al dashboard →",
           saving: "Guardando...",
         },
+        exit: "Salir",
       },
       dashboard: {
         logout: "Cerrar sesión",
@@ -450,7 +452,7 @@ const resources = {
         },
         footer: {
           login: "Iniciar sesión",
-          powered: "Impulsado por Claude AI · Construido en Vercel",
+          powered: "Monitoreo de reseñas con IA",
         },
       },
     },
