@@ -47,11 +47,11 @@ export default function Onboarding({ user, onComplete }) {
   const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
-  const [showIdGuide, setShowIdGuide] = useState(false);
   const [form, setForm] = useState({
     businessName: "",
     alertEmail: user?.email || "",
-    googleBusinessId: "",
+    businessCity: "",
+    businessAddress: "",
     platforms: {
       google: true,
       facebook: false,
@@ -63,7 +63,7 @@ export default function Onboarding({ user, onComplete }) {
 
   const currentStep = STEPS[step];
   const progress = (step / (STEPS.length - 2)) * 100;
-  const canNextBusiness = form.businessName.trim().length > 0;
+  const canNextBusiness = form.businessName.trim().length > 0 && form.businessCity.trim().length > 0;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -211,60 +211,35 @@ export default function Onboarding({ user, onComplete }) {
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm mb-2 block">
-                    {t("onboarding.business.googleIdLabel")}
+                    {t("onboarding.business.cityLabel")} <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="businessCity"
+                    value={form.businessCity}
+                    onChange={handleChange}
+                    placeholder={t("onboarding.business.cityPlaceholder")}
+                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-400 text-sm mb-2 block">
+                    {t("onboarding.business.addressLabel")}
                     <span className="text-gray-600 ml-2 text-xs">
-                      {t("onboarding.business.googleIdOptional")}
+                      {t("onboarding.business.addressOptional")}
                     </span>
                   </label>
                   <input
                     type="text"
-                    name="googleBusinessId"
-                    value={form.googleBusinessId}
+                    name="businessAddress"
+                    value={form.businessAddress}
                     onChange={handleChange}
-                    placeholder={t("onboarding.business.googleIdPlaceholder")}
+                    placeholder={t("onboarding.business.addressPlaceholder")}
                     className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
                   />
-                  {/* Collapsible guide */}
-                  <button
-                    type="button"
-                    onClick={() => setShowIdGuide((v) => !v)}
-                    className="mt-2 flex items-center gap-1 text-blue-400 hover:text-blue-300 text-xs transition"
-                  >
-                    <span>{showIdGuide ? "▲" : "▼"}</span>
-                    {t("onboarding.business.googleIdGuide")}
-                  </button>
-                  {showIdGuide && (
-                    <div className="mt-2 bg-gray-800 border border-gray-700 rounded-lg p-4 space-y-2">
-                      <ol className="space-y-2 list-none">
-                        {[
-                          t("onboarding.business.googleIdStep1"),
-                          t("onboarding.business.googleIdStep2"),
-                          t("onboarding.business.googleIdStep3"),
-                        ].map((step, i) => (
-                          <li key={i} className="flex items-start gap-2 text-xs text-gray-300">
-                            <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center shrink-0 font-semibold text-xs">
-                              {i + 1}
-                            </span>
-                            {step}
-                          </li>
-                        ))}
-                      </ol>
-                      <div className="pt-2 border-t border-gray-700">
-                        <p className="text-gray-500 text-xs mb-1">{t("onboarding.business.googleIdExample")}</p>
-                        <code className="text-green-400 text-xs bg-gray-900 px-2 py-1 rounded block">
-                          0x8e24d99d8f5ab6eb:0xc8d7cc2022282bc7
-                        </code>
-                      </div>
-                      <a
-                        href="https://www.google.com/maps"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-xs mt-1 transition"
-                      >
-                        🗺️ {t("onboarding.business.googleIdLink")}
-                      </a>
-                    </div>
-                  )}
+                  <p className="text-gray-600 text-xs mt-1.5">
+                    💡 {t("onboarding.business.addressHint")}
+                  </p>
                 </div>
               </div>
               <div className="flex gap-3 mt-8">
@@ -368,8 +343,8 @@ export default function Onboarding({ user, onComplete }) {
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-green-400">✓</span>
                   <span className="text-gray-300">
-                    {t("onboarding.done.platform")}:{" "}
-                    <strong className="text-white">Google Reviews</strong>
+                    {t("onboarding.done.city")}:{" "}
+                    <strong className="text-white">{form.businessCity}</strong>
                   </span>
                 </div>
               </div>
