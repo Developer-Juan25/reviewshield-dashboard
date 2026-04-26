@@ -98,10 +98,13 @@ const resources = {
         allPlatforms: "Across all platforms",
       },
       chart: {
-        title: "Rating trend & volume",
-        period: "Last 8 weeks",
+        title: "Review Breakdown",
+        period: "All time",
         reviews: "Reviews",
         avgRating: "Avg Rating",
+        positive: "Positive reviews",
+        negative: "Negative reviews",
+        total: "Total reviews",
       },
       // Review Card
       review: {
@@ -331,10 +334,13 @@ const resources = {
         allPlatforms: "En todas las plataformas",
       },
       chart: {
-        title: "Tendencia de calificación y volumen",
-        period: "Últimas 8 semanas",
+        title: "Desglose de reseñas",
+        period: "Todo el tiempo",
         reviews: "Reseñas",
         avgRating: "Cal. promedio",
+        positive: "Reseñas positivas",
+        negative: "Reseñas negativas",
+        total: "Total reseñas",
       },
       review: {
         aiResponse: "Respuesta IA:",
