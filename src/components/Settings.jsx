@@ -20,7 +20,8 @@ export default function Settings({ user }) {
   const [form, setForm] = useState({
     businessName: "",
     alertEmail: user?.email || "",
-    googleBusinessId: "",
+    businessCity: "",
+    businessAddress: "",
     platforms: {
       google: true,
       yelp: false,
@@ -142,19 +143,35 @@ export default function Settings({ user }) {
             </div>
             <div>
               <label className="text-gray-400 text-sm mb-2 block">
-                {t("settings.googleId")}
+                {t("onboarding.business.cityLabel")} <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                name="businessCity"
+                value={form.businessCity}
+                onChange={handleChange}
+                placeholder={t("onboarding.business.cityPlaceholder")}
+                className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
+              />
+            </div>
+            <div>
+              <label className="text-gray-400 text-sm mb-2 block">
+                {t("onboarding.business.addressLabel")}
                 <span className="text-gray-600 ml-2 text-xs">
-                  ({t("settings.googleIdHint")})
+                  {t("onboarding.business.addressOptional")}
                 </span>
               </label>
               <input
                 type="text"
-                name="googleBusinessId"
-                value={form.googleBusinessId}
+                name="businessAddress"
+                value={form.businessAddress}
                 onChange={handleChange}
-                placeholder="e.g. 0x8e24d99d8f5ab6eb:0xc8d7cc2022282bc7"
+                placeholder={t("onboarding.business.addressPlaceholder")}
                 className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition"
               />
+              <p className="text-gray-600 text-xs mt-1.5">
+                💡 {t("onboarding.business.addressHint")}
+              </p>
             </div>
           </div>
         </div>
