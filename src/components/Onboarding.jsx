@@ -45,7 +45,7 @@ const PLATFORMS = [
 const STEPS = ["welcome", "business", "platforms", "done"];
 
 export default function Onboarding({ user, onComplete }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
@@ -96,6 +96,7 @@ export default function Onboarding({ user, onComplete }) {
             businessName: form.businessName,
             alertEmail: form.alertEmail,
             userId: user.uid,
+            language: i18n.language?.slice(0, 2) || "en",
           }),
         }).catch(() => {});
       }

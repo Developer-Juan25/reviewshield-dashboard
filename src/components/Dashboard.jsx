@@ -88,14 +88,14 @@ export default function Dashboard({ user }) {
   const reviewWord = filtered.length === 1 ? t("dashboard.review") : t("dashboard.reviews");
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-[#080a0f] text-white">
       {/* Header */}
-      <header className="border-b border-gray-800 bg-gray-900 px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#080a0f]/85 backdrop-blur-xl px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="text-xl">🛡️</span>
           <span className="font-bold text-lg tracking-tight">ReviewShield</span>
           {businessName && (
-            <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded-full">
+            <span className="bg-white/[0.06] text-gray-400 text-xs px-2.5 py-1 rounded-full border border-white/[0.08]">
               {businessName}
             </span>
           )}
@@ -145,7 +145,7 @@ export default function Dashboard({ user }) {
       </header>
 
       {/* Nav tabs */}
-      <div className="border-b border-gray-800 bg-gray-900 px-6">
+      <div className="border-b border-white/[0.05] bg-[#080a0f]/60 px-6">
         <div className="flex gap-6 max-w-5xl mx-auto">
           {[
             {
@@ -166,10 +166,10 @@ export default function Dashboard({ user }) {
             <button
               key={tab.key}
               onClick={() => setPage(tab.key)}
-              className={`py-3 text-sm font-medium border-b-2 transition ${
+              className={`py-3 text-sm font-medium border-b-2 transition-all duration-200 ${
                 page === tab.key
                   ? "border-blue-500 text-white"
-                  : "border-transparent text-gray-500 hover:text-white"
+                  : "border-transparent text-gray-500 hover:text-gray-300"
               }`}
             >
               {tab.label}
