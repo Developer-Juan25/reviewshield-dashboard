@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
@@ -11,6 +11,15 @@ import LandingPage from "./components/LandingPage";
 function SuccessPage() {
   const { t } = useTranslation();
   const raw = localStorage.getItem("pendingPlan") || "starter";
+
+  // Prevent indexing of the post-payment success page
+  useEffect(() => {
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex, nofollow";
+    document.head.appendChild(meta);
+    return () => { document.head.removeChild(meta); };
+  }, []);
   localStorage.removeItem("pendingPlan");
   const planName = raw.charAt(0).toUpperCase() + raw.slice(1);
 
