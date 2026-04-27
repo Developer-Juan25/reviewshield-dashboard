@@ -1,4 +1,4 @@
-import i18n from "i18next";
+﻿import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
@@ -489,5 +489,12 @@ i18n
       caches: [],
     },
   });
+
+// Keep <html lang="..."> in sync with the active language
+const setHtmlLang = (lng) => {
+  document.documentElement.lang = lng?.slice(0, 2) || "en";
+};
+i18n.on("languageChanged", setHtmlLang);
+setHtmlLang(i18n.language);
 
 export default i18n;
