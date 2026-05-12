@@ -87,6 +87,9 @@ const resources = {
         reviews: "reviews",
         loading: "Loading reviews from Firebase...",
         empty: "No reviews yet. N8N will populate this automatically.",
+        exportPdf: "Export PDF",
+        exportingPdf: "Generating...",
+        pdfPlanRequired: "Upgrade to export",
       },
       // Stats
       stats: {
@@ -116,6 +119,11 @@ const resources = {
         hide: "Hide ▲",
         copy: "Copy reply",
         copied: "✓ Copied!",
+        editHint: "Edit before copying...",
+        regenerate: "Regenerate",
+        regenerating: "Regenerating...",
+        regenerateLimit: "Limit reached (3/3)",
+        regeneratePlanRequired: "Starter plan required",
       },
       // Settings
       settings: {
@@ -324,6 +332,9 @@ const resources = {
         reviews: "reseñas",
         loading: "Cargando reseñas desde Firebase...",
         empty: "Sin reseñas aún. N8N las poblará automáticamente.",
+        exportPdf: "Exportar PDF",
+        exportingPdf: "Generando...",
+        pdfPlanRequired: "Mejora para exportar",
       },
       stats: {
         total: "Total reseñas",
@@ -351,6 +362,11 @@ const resources = {
         hide: "Ocultar ▲",
         copy: "Copiar respuesta",
         copied: "✓ ¡Copiado!",
+        editHint: "Edita antes de copiar...",
+        regenerate: "Regenerar",
+        regenerating: "Regenerando...",
+        regenerateLimit: "Límite alcanzado (3/3)",
+        regeneratePlanRequired: "Requiere plan Starter",
       },
       settings: {
         title: "Configuración",

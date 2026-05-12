@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { auth, db } from "../firebase";
 import { collection, onSnapshot, orderBy, query, where, doc, getDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
+import jsPDF from "jspdf";
 import ReviewCard from "./ReviewCard";
 import StatsBar from "./StatsBar";
 import ReviewChart from "./ReviewChart";
@@ -14,6 +15,8 @@ const LANGUAGES = [
   { code: "es", label: "ES", flag: "🇪🇸" },
 ];
 
+const PAID_PLANS = ["trial", "starter", "pro", "agency"];
+
 export default function Dashboard({ user }) {
   const { t } = useTranslation();
   const [filter, setFilter] = useState("all");
@@ -24,7 +27,10 @@ export default function Dashboard({ user }) {
   const [langOpen, setLangOpen] = useState(false);
   const [trialDaysLeft, setTrialDaysLeft] = useState(null);
   const [plan, setPlan] = useState("free");
+  const [regenerateCounts, setRegenerateCounts] = useState({});
+  const [exportingPdf, setExportingPdf] = useState(false);
   const currentLang = i18n.language?.slice(0, 2) || "en";
+  const isPaid = PAID_PLANS.includes(plan);
 
   // Load settings (businessName + trial info)
   useEffect(() => {
@@ -86,6 +92,118 @@ export default function Dashboard({ user }) {
       : "0.0";
 
   const reviewWord = filtered.length === 1 ? t("dashboard.review") : t("dashboard.reviews");
+
+  const handleRegenerate = async (reviewId, reviewText) => {
+    const url = import.meta.env.VITE_N8N_REGENERATE_URL;
+    if (!url) return;
+    setRegenerateCounts((prev) => ({
+      ...prev,
+      [reviewId]: (prev[reviewId] || 0) + 1,
+    }));
+    try {
+      await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviewId, reviewText, userId: user.uid }),
+      });
+      // onSnapshot in reviews useEffect will pick up the new aiResponse automatically
+    } catch (err) {
+      console.error("Regenerate error:", err);
+      // Rollback count on failure
+      setRegenerateCounts((prev) => ({
+        ...prev,
+        [reviewId]: Math.max(0, (prev[reviewId] || 1) - 1),
+      }));
+    }
+  };
+
+  const exportPDF = async () => {
+    if (!isPaid) return;
+    setExportingPdf(true);
+    try {
+      const pdf = new jsPDF({ unit: "pt", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const margin = 40;
+      let y = 60;
+
+      // Title
+      pdf.setFontSize(22);
+      pdf.setTextColor(30, 30, 30);
+      pdf.text("ReviewShield — Review Report", margin, y);
+      y += 10;
+
+      // Business name + date
+      pdf.setFontSize(11);
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(`${businessName} · ${new Date().toLocaleDateString()}`, margin, y + 14);
+      y += 36;
+
+      // Divider
+      pdf.setDrawColor(200, 200, 200);
+      pdf.line(margin, y, pageW - margin, y);
+      y += 20;
+
+      // Summary stats
+      pdf.setFontSize(11);
+      pdf.setTextColor(30, 30, 30);
+      pdf.text(`Total reviews: ${reviews.length}   Negative: ${negativeCount}   Avg rating: ${avgRating}`, margin, y);
+      y += 30;
+
+      // Reviews
+      filtered.forEach((review, idx) => {
+        const blockH = review.aiResponse ? 130 : 80;
+        if (y + blockH > pdf.internal.pageSize.getHeight() - 50) {
+          pdf.addPage();
+          y = 50;
+        }
+
+        // Card header
+        pdf.setFontSize(10);
+        pdf.setTextColor(80, 80, 80);
+        pdf.text(
+          `#${idx + 1}  ${review.platform?.toUpperCase() ?? ""}  ★ ${review.rating}/5  ${review.isNegative ? "⚠ Negative" : "✓ Positive"}  ${review.timestamp}`,
+          margin,
+          y
+        );
+        y += 14;
+
+        pdf.setFontSize(11);
+        pdf.setTextColor(20, 20, 20);
+        pdf.text(review.authorName || "Anonymous", margin, y);
+        y += 14;
+
+        // Review text (wrapped)
+        pdf.setFontSize(10);
+        pdf.setTextColor(60, 60, 60);
+        const reviewLines = pdf.splitTextToSize(review.reviewText || "", pageW - margin * 2);
+        pdf.text(reviewLines, margin, y);
+        y += reviewLines.length * 13 + 6;
+
+        // AI response
+        if (review.aiResponse) {
+          pdf.setFontSize(9);
+          pdf.setTextColor(40, 80, 140);
+          pdf.text("AI Response:", margin, y);
+          y += 12;
+          pdf.setTextColor(50, 50, 80);
+          const aiLines = pdf.splitTextToSize(review.aiResponse, pageW - margin * 2);
+          pdf.text(aiLines, margin, y);
+          y += aiLines.length * 12 + 6;
+        }
+
+        // Separator
+        pdf.setDrawColor(220, 220, 220);
+        pdf.line(margin, y, pageW - margin, y);
+        y += 16;
+      });
+
+      pdf.save(`reviewshield-${businessName.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.pdf`);
+    } catch (err) {
+      console.error("PDF export error:", err);
+    } finally {
+      setExportingPdf(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#080a0f] text-white">
@@ -217,7 +335,7 @@ export default function Dashboard({ user }) {
 
           <ReviewChart reviews={reviews} />
 
-          <div className="flex gap-2 mb-6">
+          <div className="flex gap-2 mb-6 flex-wrap">
             {[
               { key: "all", label: t("dashboard.filters.all") },
               { key: "negative", label: t("dashboard.filters.negative") },
@@ -238,6 +356,27 @@ export default function Dashboard({ user }) {
             <span className="ml-auto text-gray-500 text-sm self-center">
               {filtered.length} {reviewWord}
             </span>
+            {/* Export PDF button */}
+            <button
+              onClick={isPaid ? exportPDF : undefined}
+              disabled={exportingPdf}
+              title={!isPaid ? t("dashboard.pdfPlanRequired") : undefined}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition ${
+                isPaid
+                  ? exportingPdf
+                    ? "bg-gray-700 text-gray-400 cursor-wait"
+                    : "bg-white/[0.06] border border-white/[0.1] text-gray-300 hover:bg-white/[0.1] hover:text-white"
+                  : "bg-gray-800/50 text-gray-600 cursor-not-allowed border border-gray-700/50"
+              }`}
+            >
+              <span>📄</span>
+              {exportingPdf ? t("dashboard.exportingPdf") : t("dashboard.exportPdf")}
+              {!isPaid && (
+                <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-500 ml-0.5">
+                  Starter+
+                </span>
+              )}
+            </button>
           </div>
 
           {loading && (
@@ -257,7 +396,14 @@ export default function Dashboard({ user }) {
           {!loading && (
             <div className="space-y-4">
               {filtered.map((review) => (
-                <ReviewCard key={review.id} review={review} />
+                <ReviewCard
+                  key={review.id}
+                  review={review}
+                  plan={plan}
+                  userId={user.uid}
+                  regenerateCount={regenerateCounts[review.id] || 0}
+                  onRegenerate={handleRegenerate}
+                />
               ))}
             </div>
           )}

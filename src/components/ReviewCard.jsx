@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const PLATFORM_META = {
@@ -8,18 +8,44 @@ const PLATFORM_META = {
   tripadvisor: { label: "TripAdvisor", icon: "T", color: "text-green-400",  border: "border-green-500/20",  bg: "bg-green-500/10" },
 };
 
-export default function ReviewCard({ review }) {
+const PAID_PLANS = ["trial", "starter", "pro", "agency"];
+
+export default function ReviewCard({ review, plan = "free", userId, regenerateCount = 0, onRegenerate }) {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [editedResponse, setEditedResponse] = useState(review.aiResponse || "");
+  const [isRegenerating, setIsRegenerating] = useState(false);
 
   const platform = PLATFORM_META[review.platform] ?? PLATFORM_META.google;
+  const isPaid = PAID_PLANS.includes(plan);
+  const canRegenerate = isPaid && regenerateCount < 3;
+  const MAX_REGEN = 3;
+
+  // Sync editedResponse when Firestore updates aiResponse (after regeneration)
+  useEffect(() => {
+    setEditedResponse(review.aiResponse || "");
+  }, [review.aiResponse]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(review.aiResponse);
+    navigator.clipboard.writeText(editedResponse);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const handleRegenerate = async () => {
+    if (!canRegenerate || isRegenerating) return;
+    setIsRegenerating(true);
+    await onRegenerate?.(review.id, review.reviewText);
+    // isRegenerating will reset when aiResponse updates via Firestore onSnapshot
+    // Add a safety timeout in case the webhook is slow
+    setTimeout(() => setIsRegenerating(false), 15000);
+  };
+
+  // Reset regenerating state when aiResponse updates
+  useEffect(() => {
+    setIsRegenerating(false);
+  }, [review.aiResponse]);
 
   return (
     <div
@@ -97,22 +123,70 @@ export default function ReviewCard({ review }) {
         {/* AI Response panel */}
         {expanded && review.aiResponse && (
           <div className="mt-4 bg-blue-950/25 border border-blue-500/15 rounded-xl p-4">
-            <div className="flex items-center justify-between mb-3">
+            {/* Header row */}
+            <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
               <span className="text-blue-400 text-xs font-semibold uppercase tracking-wider">
                 🤖 {t("review.aiResponse")}
               </span>
-              <button
-                onClick={handleCopy}
-                className={`text-xs px-3 py-1.5 rounded-lg transition font-semibold ${
-                  copied
-                    ? "bg-green-600/80 text-white"
-                    : "bg-blue-600 hover:bg-blue-500 text-white"
-                }`}
-              >
-                {copied ? t("review.copied") : t("review.copy")}
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Regenerate button */}
+                {isPaid ? (
+                  <button
+                    onClick={handleRegenerate}
+                    disabled={!canRegenerate || isRegenerating}
+                    title={
+                      !canRegenerate
+                        ? t("review.regenerateLimit")
+                        : `${MAX_REGEN - regenerateCount} uses left`
+                    }
+                    className={`text-xs px-2.5 py-1.5 rounded-lg transition font-medium flex items-center gap-1.5 ${
+                      !canRegenerate
+                        ? "bg-gray-800 text-gray-600 cursor-not-allowed"
+                        : isRegenerating
+                        ? "bg-gray-700 text-gray-400 cursor-wait"
+                        : "bg-white/[0.05] border border-white/[0.1] text-gray-400 hover:text-white hover:border-white/20"
+                    }`}
+                  >
+                    {isRegenerating ? (
+                      <>
+                        <span className="animate-spin text-[10px]">⟳</span>
+                        {t("review.regenerating")}
+                      </>
+                    ) : !canRegenerate ? (
+                      t("review.regenerateLimit")
+                    ) : (
+                      <>
+                        ⟳ {t("review.regenerate")}
+                        <span className="text-[10px] text-gray-600">
+                          {regenerateCount}/{MAX_REGEN}
+                        </span>
+                      </>
+                    )}
+                  </button>
+                ) : null}
+
+                {/* Copy button */}
+                <button
+                  onClick={handleCopy}
+                  className={`text-xs px-3 py-1.5 rounded-lg transition font-semibold ${
+                    copied
+                      ? "bg-green-600/80 text-white"
+                      : "bg-blue-600 hover:bg-blue-500 text-white"
+                  }`}
+                >
+                  {copied ? t("review.copied") : t("review.copy")}
+                </button>
+              </div>
             </div>
-            <p className="text-gray-300 text-sm leading-relaxed">{review.aiResponse}</p>
+
+            {/* Editable textarea */}
+            <textarea
+              value={editedResponse}
+              onChange={(e) => setEditedResponse(e.target.value)}
+              placeholder={t("review.editHint")}
+              rows={Math.max(3, editedResponse.split("\n").length + 1)}
+              className="w-full bg-transparent text-gray-300 text-sm leading-relaxed resize-none outline-none border border-transparent focus:border-blue-500/30 rounded-lg px-1 py-1 transition placeholder-gray-700"
+            />
           </div>
         )}
       </div>
