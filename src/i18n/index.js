@@ -164,6 +164,18 @@ const resources = {
         currentPlan: "Current plan",
         popularBadge: "Most popular",
         usdNote: "All prices in USD",
+        whiteLabel: {
+          title: "White Label",
+          subtitle: "Customize the dashboard branding for your clients (Agency plan)",
+          brandName: "Brand Name",
+          brandNamePlaceholder: "e.g. ReputationPro",
+          brandNameHint: "Replaces 'ReviewShield' in the header and PDF exports",
+          logoEmoji: "Logo Icon (emoji)",
+          logoEmojiPlaceholder: "e.g. 🚀",
+          logoEmojiHint: "Single emoji shown next to the brand name",
+          preview: "Preview",
+          agencyOnly: "Available on Agency plan",
+        },
       },
       // Success page
       success: {
@@ -406,6 +418,18 @@ const resources = {
         currentPlan: "Plan actual",
         popularBadge: "Más popular",
         usdNote: "Precios en dólares americanos (USD)",
+        whiteLabel: {
+          title: "White Label",
+          subtitle: "Personaliza la marca del dashboard para tus clientes (plan Agency)",
+          brandName: "Nombre de marca",
+          brandNamePlaceholder: "Ej. ReputaciónPro",
+          brandNameHint: "Reemplaza 'ReviewShield' en el header y los PDF exportados",
+          logoEmoji: "Ícono de logo (emoji)",
+          logoEmojiPlaceholder: "Ej. 🚀",
+          logoEmojiHint: "Un emoji que se muestra junto al nombre de la marca",
+          preview: "Vista previa",
+          agencyOnly: "Disponible en el plan Agency",
+        },
       },
       success: {
         title: "¡Suscripción activada!",

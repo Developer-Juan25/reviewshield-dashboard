@@ -29,8 +29,11 @@ export default function Dashboard({ user }) {
   const [plan, setPlan] = useState("free");
   const [regenerateCounts, setRegenerateCounts] = useState({});
   const [exportingPdf, setExportingPdf] = useState(false);
+  const [whiteLabel, setWhiteLabel] = useState({ brandName: "", logoEmoji: "" });
   const currentLang = i18n.language?.slice(0, 2) || "en";
   const isPaid = PAID_PLANS.includes(plan);
+  const brandName = (plan === "agency" && whiteLabel.brandName) ? whiteLabel.brandName : "ReviewShield";
+  const brandEmoji = (plan === "agency" && whiteLabel.logoEmoji) ? whiteLabel.logoEmoji : "🛡️";
 
   // Load settings (businessName + trial info)
   useEffect(() => {
@@ -41,6 +44,7 @@ export default function Dashboard({ user }) {
           const data = snap.data();
           setBusinessName(data?.businessName || "");
           setPlan(data?.plan || "free");
+          if (data?.whiteLabel) setWhiteLabel(data.whiteLabel);
           if (data?.plan === "trial" && data?.trialEndsAt) {
             const msLeft = new Date(data.trialEndsAt) - new Date();
             const daysLeft = Math.max(0, Math.ceil(msLeft / (1000 * 60 * 60 * 24)));
@@ -129,7 +133,7 @@ export default function Dashboard({ user }) {
       // Title
       pdf.setFontSize(22);
       pdf.setTextColor(30, 30, 30);
-      pdf.text("ReviewShield — Review Report", margin, y);
+      pdf.text(`${brandName} — Review Report`, margin, y);
       y += 10;
 
       // Business name + date
@@ -210,8 +214,8 @@ export default function Dashboard({ user }) {
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#080a0f]/85 backdrop-blur-xl px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-xl">🛡️</span>
-          <span className="font-bold text-lg tracking-tight">ReviewShield</span>
+          <span className="text-xl">{brandEmoji}</span>
+          <span className="font-bold text-lg tracking-tight">{brandName}</span>
           {businessName && (
             <span className="bg-white/[0.06] text-gray-400 text-xs px-2.5 py-1 rounded-full border border-white/[0.08]">
               {businessName}

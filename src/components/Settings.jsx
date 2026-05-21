@@ -28,6 +28,10 @@ export default function Settings({ user, onSaved }) {
       tripadvisor: false,
       facebook: false,
     },
+    whiteLabel: {
+      brandName: "",
+      logoEmoji: "",
+    },
   });
 
   useEffect(() => {
@@ -41,6 +45,7 @@ export default function Settings({ user, onSaved }) {
             ...prev,
             ...data,
             platforms: data.platforms ?? prev.platforms,
+            whiteLabel: data.whiteLabel ?? prev.whiteLabel,
           }));
           setPlan(data.plan || "free");
         }
@@ -54,6 +59,13 @@ export default function Settings({ user, onSaved }) {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleWhiteLabel = (field, value) => {
+    setForm((prev) => ({
+      ...prev,
+      whiteLabel: { ...prev.whiteLabel, [field]: value },
+    }));
   };
 
   const handlePlatform = (p) => {
@@ -321,6 +333,72 @@ export default function Settings({ user, onSaved }) {
             {t("settings.usdNote")}
           </p>
         </div>
+
+        {/* White Label — Agency only */}
+        {plan === "agency" ? (
+          <div className="bg-gray-900 border border-purple-500/30 rounded-2xl p-6">
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-white font-semibold">🏷️ {t("settings.whiteLabel.title")}</h3>
+              <span className="bg-purple-600/30 text-purple-300 text-xs px-2 py-0.5 rounded-full border border-purple-500/30">Agency</span>
+            </div>
+            <p className="text-gray-500 text-xs mb-5">{t("settings.whiteLabel.subtitle")}</p>
+
+            <div className="space-y-4">
+              {/* Brand name */}
+              <div>
+                <label className="text-gray-400 text-sm mb-2 block">
+                  {t("settings.whiteLabel.brandName")}
+                </label>
+                <input
+                  type="text"
+                  value={form.whiteLabel.brandName}
+                  onChange={(e) => handleWhiteLabel("brandName", e.target.value)}
+                  placeholder={t("settings.whiteLabel.brandNamePlaceholder")}
+                  maxLength={40}
+                  className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition"
+                />
+                <p className="text-gray-600 text-xs mt-1.5">💡 {t("settings.whiteLabel.brandNameHint")}</p>
+              </div>
+
+              {/* Logo emoji */}
+              <div>
+                <label className="text-gray-400 text-sm mb-2 block">
+                  {t("settings.whiteLabel.logoEmoji")}
+                </label>
+                <input
+                  type="text"
+                  value={form.whiteLabel.logoEmoji}
+                  onChange={(e) => handleWhiteLabel("logoEmoji", e.target.value.slice(0, 2))}
+                  placeholder={t("settings.whiteLabel.logoEmojiPlaceholder")}
+                  maxLength={2}
+                  className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition"
+                />
+                <p className="text-gray-600 text-xs mt-1.5">💡 {t("settings.whiteLabel.logoEmojiHint")}</p>
+              </div>
+
+              {/* Live preview */}
+              {(form.whiteLabel.brandName || form.whiteLabel.logoEmoji) && (
+                <div className="mt-2">
+                  <p className="text-gray-500 text-xs mb-2">{t("settings.whiteLabel.preview")}</p>
+                  <div className="bg-gray-800/60 border border-gray-700 rounded-xl px-4 py-3 flex items-center gap-2">
+                    <span className="text-xl">{form.whiteLabel.logoEmoji || "🛡️"}</span>
+                    <span className="font-bold text-white tracking-tight">
+                      {form.whiteLabel.brandName || "ReviewShield"}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 opacity-60">
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-gray-500 font-semibold">🏷️ {t("settings.whiteLabel.title")}</h3>
+              <span className="bg-gray-800 text-gray-600 text-xs px-2 py-0.5 rounded-full border border-gray-700">Agency</span>
+            </div>
+            <p className="text-gray-600 text-xs">{t("settings.whiteLabel.agencyOnly")}</p>
+          </div>
+        )}
 
         <button
           onClick={handleSave}
