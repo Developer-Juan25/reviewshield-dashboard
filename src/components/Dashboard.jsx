@@ -104,7 +104,7 @@ export default function Dashboard({ user }) {
       await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reviewId, reviewText, userId: user.uid }),
+        body: JSON.stringify({ reviewId, reviewText, userId: user.uid, businessName }),
       });
       // onSnapshot in reviews useEffect will pick up the new aiResponse automatically
     } catch (err) {
